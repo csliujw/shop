@@ -30,6 +30,7 @@ public class PhyDeleteController {
     @RequestMapping("divisionDeleteBatch.do")
     @ResponseBody
     public String divisionDeleteBatch(DeleteVO vo) {
+        System.out.println("hello");
         return "";
     }
 
