@@ -8,6 +8,7 @@ import org.shop.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -58,8 +59,21 @@ public class LogisticsController {
      */
     @RequestMapping("update.do")
     @ResponseBody
-    public String update(Orders order) {
+    public String update(@RequestBody Orders order) {
         boolean update = service.update(order);
+        return JSONResult.update(update);
+    }
+
+    /**
+     * 确认收货
+     *
+     * @param order
+     * @return
+     */
+    @RequestMapping("arrive.do")
+    @ResponseBody
+    public String arrive(@RequestBody Orders order) {
+        boolean update = service.arrive(order);
         return JSONResult.update(update);
     }
 }

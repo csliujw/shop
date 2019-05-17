@@ -49,12 +49,16 @@
         </foreach>
     </update>
 
-    <!-- 更新 发货信息 订单状态 -->
+    <!-- 更新 物流信息-->
     <update id="update" parameterType="Orders">
-        UPDATE orders SET orders_logistics = #{orderLogistics}
-        <if test="ordersState!=null and ordersState!=''">
-            ,orders_state = 1,orders_date = CURDATE()
-        </if>
+        UPDATE orders SET orders_logistics = #{ordersLogistics}
+        where orders_id = #{ordersId}
+    </update>
+
+
+    <!-- 确认收货 -->
+    <update id="arrive" parameterType="Orders">
+        UPDATE orders SET orders_state = 1,orders_date = CURDATE()
         where orders_id = #{ordersId}
     </update>
 </mapper>

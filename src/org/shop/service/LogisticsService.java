@@ -50,4 +50,8 @@ public class LogisticsService {
     public boolean update(Orders orders) {
         return mapper.update(orders);
     }
+
+    public boolean arrive(Orders order) {
+        return mapper.arrive(order);
+    }
 }

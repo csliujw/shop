@@ -132,10 +132,7 @@
 
     <div class="layui-body iframe-container">
         <iframe id="page" src="${pageContext.request.contextPath}/admin/division/watch.jsp"
-                style="width: 100%;height: auto;height: 90%;"></iframe>
-    </div>
-    <div class="layui-footer">
-        © www.baobaoxuxu.cn Payphone版权所有
+                style="width: 100%;height: auto;height: 110%;"></iframe>
     </div>
 </div>
 <script>

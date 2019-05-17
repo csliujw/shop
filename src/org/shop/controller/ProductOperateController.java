@@ -35,14 +35,6 @@ public class ProductOperateController {
 
     @RequestMapping("index.do")
     public String index(Model model, HttpServletRequest request) {
-        //假裝登录
-        /*
-        User user = new User();
-        user.setUserUsername("123123");
-        user.setUserPassword("333");
-        User login = service.login(user);
-        request.getSession().setAttribute("userInfo",login);
-        */
         List<Division> divisions = product.selectAllDetail();
         List<List<Product>> productList = new ArrayList<>();
         for (Division div : divisions) {
@@ -57,13 +49,26 @@ public class ProductOperateController {
         return "forward:/index.jsp";//项目级别的路径
     }
 
+    /**
+     * 一级二级类别搜索
+     *
+     * @param page
+     * @param model
+     * @param pro
+     * @return
+     */
     @RequestMapping("search.do")
     public String search(Page<Product> page, Model model, Product pro) {
         page.setCondition(pro);
         setLimitAndPage(page);
         List<Product> products = product.selectAllPageConditionProduct(page);
         model.addAttribute("products", products);
-        return "forward:/product_list.jsp";
+        if (pro.getDivision() != null) {
+            return "forward:/product_list.jsp";
+        } else {
+            return "forward:/product_list_sub.jsp";
+        }
+
     }
 
     //按名称查询

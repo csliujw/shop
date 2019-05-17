@@ -31,14 +31,19 @@
     </div>
     <hr/>
     <div class="layui-inline">
-        <label class="layui-form-label">检索条件</label>
+        <label class="layui-form-label">用户姓名</label>
         <div class="layui-input-inline">
-            <input type="text" name="searchUsername" id="searchUsername" class="layui-input"
+            <input type="text" name="searchUserRealName" id="searchUserRealName" class="layui-input"
                    placeholder="购买人真实姓名">
+        </div>
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="searchProductName" id="searchProductName" class="layui-input"
+                   placeholder="商品名">
         </div>
         <label class="layui-form-label">一级类别</label>
         <div class="layui-input-inline">
-            <select name="searchDivisionName" id="searchDivisionName" lay-filter="aihao" class="layui-input">
+            <select name="searchDivisionName" id="searchDivisionName" class="layui-input">
                 <option value="">---请选择---</option>
                 <c:forEach items="${division}" var="item" varStatus="s">
                     <option value="${item.divisionId}">${item.divisionName}</option>
@@ -50,11 +55,6 @@
             <select name="searchSubdivisionName" id="searchSubdivisionName" lay-filter="aihao" class="layui-input">
                 <option value='' selected='selected'>---请选择---</option>
             </select>
-        </div>
-        <label class="layui-form-label">商品名称</label>
-        <div class="layui-input-inline">
-            <input type="text" name="searchProductName" id="searchProductName" class="layui-input"
-                   placeholder="购买人真实姓名">
         </div>
     </div>
     <button class="layui-btn" data-type="reload">查询</button>
@@ -81,7 +81,6 @@
                     content: json.message
                 });
                 if (json.message.indexOf('成功') != -1) {
-                    layer.msg(json.message.indexOf('成功'));
                     obj.del();
                 }
             },
@@ -152,6 +151,7 @@
         }
         $("#searchSubdivisionName").html(insert);
     });
+
     //layui模块加载
     layui.use(['table', 'form', 'layedit', 'laydate', 'upload'], function () {
         let table = layui.table;
@@ -264,22 +264,21 @@
             }
             , reload: function () {
                 /**
-                 * searchProductName searchProductOrHot searchDivisionName searchSubdivisionName
                  * */
-                /*
-                let $productName = $("#searchProductName").val();
-                let $productOrHot = $("#searchProductOrHot").val();
-                let $divisionName = $("#searchDivisionName").val();//其实获取的是select中option的val~~
-                let $subdivisionName = $("#searchSubdivisionName").val();
+                let $searchUserRealName = $("#searchUserRealName").val();
+                let $searchDivisionName = $("#searchDivisionName").val();
+                let $searchSubdivisionName = $("#searchSubdivisionName").val();
+                let $searchProductName = $("#searchProductName").val();
+
                 table.reload('contentTable', {
                     where: {
-                        "productName": $productName,
-                        "productOrHot": $productOrHot,
-                        "divisionId": $divisionName,
-                        "subdivisionId": $subdivisionName
+                        "user.userRealName": $searchUserRealName,
+                        "division.divisionId": $searchDivisionName,
+                        "subdivision.subdivisionId": $searchSubdivisionName,
+                        "product.productName": $searchProductName
                     }
                 });
-                form.render();*/
+                form.render();
             }
         };
         $('i').on('click', function () {

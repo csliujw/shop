@@ -9,6 +9,7 @@ package org.shop.pojo;
 public class Orders {
     private String ordersId;
     private String ordersTime;
+    private String ordersDate;
     private String ordersTotal;
     private String ordersState;//用户是否已接收快递 用户自行操作
     private String userUsername;
@@ -34,6 +35,14 @@ public class Orders {
 
     public void setOrdersTime(String ordersTime) {
         this.ordersTime = ordersTime;
+    }
+
+    public String getOrdersDate() {
+        return ordersDate;
+    }
+
+    public void setOrdersDate(String ordersDate) {
+        this.ordersDate = ordersDate;
     }
 
     public String getOrdersTotal() {

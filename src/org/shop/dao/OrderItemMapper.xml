@@ -90,11 +90,11 @@
         </if>
         <if test="condition!=null and condition.division!=null and condition.division.divisionId!=null and condition.division.divisionId!=''">
             <!-- 商品一级类别 -->
-            AND d.`division_id` = #{condition.product.division.divisionId}
+            AND d.`division_id` = #{condition.division.divisionId}
         </if>
         <if test="condition!=null and condition.subdivision!=null and condition.subdivision.subdivisionId!=null and condition.subdivision.subdivisionId!=''">
             <!-- 商品二级类别 -->
-            AND sb.`subdivision_id` = #{condition.product.subdivision.subdivisionId}
+            AND sb.`subdivision_id` = #{condition.subdivision.subdivisionId}
         </if>
         <if test="condition!=null and condition.product!=null and condition.product.productName!=null and condition.product.productName!=''">
             <!-- 商品名称 -->

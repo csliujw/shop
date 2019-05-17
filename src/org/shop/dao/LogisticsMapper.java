@@ -19,7 +19,9 @@ public interface LogisticsMapper {
     // 批量删除
     int deleteBatch(DeleteVO vo);
 
-    // 更新 发货信息 订单状态
+    // 更新 物流信息 订单状态（是否发货了）
     boolean update(Orders orders);
 
+    // 订单是否送达
+    boolean arrive(Orders order);
 }

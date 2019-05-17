@@ -68,6 +68,7 @@
     <button class="layui-btn" data-type="reload">查询</button>
 </div>
 
+<table id="product" lay-filter="product"></table>
 <!-- 隐藏的表单 -->
 <div class="layui-row" id="updateProductForm" style="display: none;">
     <br><br>
@@ -158,7 +159,7 @@
         </form>
     </div>
 </div>
-<table id="product" lay-filter="product"></table>
+
 <script type="text/html" id="autoIncrement">
     {{d.LAY_TABLE_INDEX+1}}
 </script>

@@ -19,19 +19,35 @@
         <foreach collection="ids" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>
+        and user_state !='1'
     </delete>
 
     <!--查询所有 姓名-->
     <select id="selectAllUser" parameterType="User" resultType="long">
         select count(1) from user
-        where  user_username like concat("%",#{userUsername},"%")
+        <where>
+            <if test="userRealName!=null and userRealName!=''">
+                and user_real_name like concat("%",#{userRealName},"%")
+            </if>
+            <if test="userState!=null and userState!=''">
+                and user_state = #{userState}
+            </if>
+        </where>
     </select>
 
     <!--分页条件查询 姓名-->
     <select id="selectAllPageConditionUser" parameterType="org.shop.utils.Page" resultType="User">
-        select *
+        select
+        user_id,user_username,user_real_name,user_email,user_telephone,user_birthday,user_sex,user_state,user_address,user_date
         from user
-        where  user_username like concat("%",#{condition.userUsername},"%")
+        <where>
+            <if test="condition!=null and condition.userRealName!=null and condition.userRealName!=''">
+                and user_real_name like concat("%",#{condition.userRealName},"%")
+            </if>
+            <if test="condition!=null and condition.userState!=null and condition.userState!=''">
+                and user_state = #{condition.userState}
+            </if>
+        </where>
         limit #{start},#{limit}
     </select>
 

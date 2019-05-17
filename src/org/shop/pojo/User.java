@@ -15,6 +15,7 @@ public class User {
     private String userState;//用户状态，是否注销了账号
     private String userAddress;//用户收货地址
     private String newPassword;
+    private String userDate;
 
     public String getUserId() {
         return userId;
@@ -102,6 +103,14 @@ public class User {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getUserDate() {
+        return userDate;
+    }
+
+    public void setUserDate(String userDate) {
+        this.userDate = userDate;
     }
 
     @Override

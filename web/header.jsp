@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
+<script src="${pageContext.request.contextPath}/layui.js"></script>
 <!-- 登录 注册 购物车... -->
 <div class="container-fluid">
     <div class="col-md-4">

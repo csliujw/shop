@@ -76,7 +76,7 @@ public class DivisionController {
     @ResponseBody()
     public String delete(Division division) {
         boolean delete = divisionServiceImpl.delete(division);
-        return JSONResult.delete(delete);
+        return JSONResult.deleteDivision(delete);
 
     }
 
@@ -88,7 +88,7 @@ public class DivisionController {
     @ResponseBody()
     public String deleteBatch(DeleteVO vo) {
         boolean deletes = divisionServiceImpl.deleteBatch(vo);
-        return JSONResult.deletes(deletes);
+        return JSONResult.deletesDivision(deletes);
     }
 
     /**

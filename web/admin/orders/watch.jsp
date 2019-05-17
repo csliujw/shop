@@ -48,11 +48,77 @@
 </div>
 
 <table id="logistics" lay-filter="logistics"></table>
+<!--
+    修改物流信息
+    显示 商品名称
+    总价
+    收货人姓名
+    收货人地址
+    联系电话
+    物流信息  修改项
+    提示，同一快递的一起更新
+-->
+<!-- 隐藏的表单 -->
+<div class="layui-row" id="updateOrdersForm" style="display: none;">
+    <br/>
+    <div class="layui-col-md10">
+        <form class="layui-form">
+            <input type="text" style="display: none" id="ordersId">
+            <div class="layui-form-item">
+                <input type="text" hidden="none" id="productId" name="productId">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" id="productName" lay-verify="required|title" class="layui-input"
+                           disabled="disabled">
+                </div>
+                <br>
+                <label class="layui-form-label">订单总价</label>
+                <div class="layui-input-block">
+                    <input type="text" id="ordersTotal" class="layui-input" disabled="disabled">
+                </div>
+                <br>
+                <label class="layui-form-label">收货人姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" id="userRealName" class="layui-input" disabled="disabled">
+                </div>
+                <br/>
+                <label class="layui-form-label">收货人电话</label>
+                <div class="layui-input-block">
+                    <input type="text" id="userTelephone" class="layui-input" disabled="disabled">
+                </div>
+                <br>
+                <label class="layui-form-label">收货人地址</label>
+                <div class="layui-input-block">
+                    <input type="text" id="userAddress" class="layui-input" disabled="disabled">
+                </div>
+                <br>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">物流信息</label>
+                    <div class="layui-input-block">
+                        <textarea name="ordersLogistics" id="ordersLogistics" lay-verify="required"
+                                  class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <br>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="updateOrders" lay-filter="updateOrders" id="updateOrders">
+                            立即提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script type="text/html" id="autoIncrement">
     {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="arrive">确认到货</a>
 </script>
 <script>
 
@@ -70,11 +136,9 @@
                     title: "操作信息",
                     content: json.message //这里content是一个普通的String
                 });
-
                 function close() {
                     layer.closeAll();
                 }
-
                 setTimeout(close, 2000);
             },
             error: function () {
@@ -157,25 +221,20 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'autoIncrement', width: 80, title: '排名', fixed: 'left', templet: '#autoIncrement'}
                 , {field: 'productName', title: '商品名称', width: 160, fixed: 'left'}
-                , {field: 'ordersId', title: '订单ID', width: 80, fixed: 'left'}
                 , {field: 'ordersTotal', title: '订单总价钱', width: 120, fixed: 'left'}
-                , {field: 'userRealName', title: '收货人', width: 120, fixed: 'left'}
+                , {field: 'userRealName', title: '收货人姓名', width: 120, fixed: 'left'}
                 , {field: 'userAddress', title: '收货人地址', width: 200, fixed: 'left'}
                 , {field: 'userTelephone', title: '联系电话', width: 160}
                 , {field: 'ordersLogistics', title: '物流信息', width: 280}
+                , {field: 'ordersTime', title: '订单提交时间', width: 160}
+                , {field: 'ordersDate', title: '收货时间', width: 160}
                 , {
                     field: 'ordersState',
                     title: '是否到货',
                     width: 120,
                     templet: "<div>{{d.ordersState=='0'?'暂未到货':'已经送达'}}</div>"
                 }
-                , {
-                    field: 'ordersTime',
-                    title: '到货日期',
-                    width: 160,
-                    templet: "<div>{{d.ordersTime!=''?d.ordersTime:'暂未到货'}}</div>"
-                }
-                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 200, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
         //监听工具条
@@ -186,6 +245,41 @@
                     let str = {"ordersId": data.ordersId};
                     deleteSingle(str, "orders/delete.do", obj);
                     layer.close(index);
+                });
+            } else if (obj.event === 'arrive') {
+                //確認收貨
+                layer.confirm('确认未经用户允确认收货吗?', function (index) {
+                    let str = {"ordersId": data.ordersId};
+                    update(JSON.stringify(str), "orders/arrive.do");
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.open({
+                    type: 1,
+                    title: "修改物流信息 ",
+                    area: ['600px', '525px'],
+                    content: $("#updateOrdersForm"),//引用的弹出层的页面层的方式加载修改界面表单
+                    success: function (layero, index) {
+                        //数据回显
+                        $("#productName").val(data.productName);
+                        $("#ordersTotal").val(data.ordersTotal);
+                        $("#userRealName").val(data.userRealName);
+                        $("#ordersLogistics").val(data.ordersLogistics);
+                        $("#userTelephone").val(data.userTelephone);
+                        $("#userAddress").val(data.userAddress);
+                        $("#ordersId").val(data.ordersId);
+                    }
+                });
+                form.on('submit(updateOrders)', function (data) {
+                    //获得数据
+                    let $ordersLogistics = $("#ordersLogistics").val();
+                    let $ordersId = $("#ordersId").val();
+                    let jsonStr = {
+                        "ordersLogistics": $ordersLogistics,
+                        "ordersId": $ordersId
+                    };
+                    update(JSON.stringify(jsonStr), "orders/update.do");
+                    event.preventDefault();
                 });
             }
         });
