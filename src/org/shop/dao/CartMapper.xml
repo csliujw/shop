@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.CartMapper">
+    <!--添加购物车数据至数据库-->
+    <insert id="addProduct" parameterType="CartItem">
+        INSERT INTO order_item
+        (order_item_id,order_item_count,order_item_subtotal,product_id,user_id,orders_id,order_item_date)
+        VALUES
+        (#{orderItemId},#{buyNum},#{subtotal},#{product.productId},#{userId},#{ordersId},CURDATE())
+    </insert>
+
+    <resultMap id="selectOrdersMap" type="OrderItem">
+        <id column="order_item_id" property="orderItemId"/>
+        <result column="order_item_count" property="orderItemCount"/>
+        <result column="order_item_subtotal" property="orderItemSubtotal"/>
+        <result column="orders_id" property="ordersId"/>
+        <result column="order_item_statu" property="orderItemStatu"/>
+        <association property="user" javaType="User">
+            <id column="user_id" property="userId"/>
+            <result column="user_telephone" property="userTelephone"/>
+            <result column="user_address" property="userAddress"/>
+            <result column="user_real_name" property="userRealName"/>
+        </association>
+        <association property="product" javaType="Product">
+            <id column="product_id" property="productId"/>
+            <result column="product_image" property="productImage"/>
+            <result column="product_name" property="productName"/>
+            <result column="product_shop_price" property="productShopPrice"/>
+        </association>
+    </resultMap>
+
+    <!-- 查詢所有未付款訂單信息 -->
+    <select id="selectOrderItem" parameterType="string" resultMap="selectOrdersMap">
+        select order_item.*,product.* from order_item,product
+        where order_item.product_id = product.product_id
+        and order_item.user_id = #{value}
+        and order_item_or_delete = 0
+        and order_item_statu = 0
+        and order_item_date = CURDATE()
+    </select>
+
+
+    <update id="updateOrderItem" parameterType="CartVO">
+        update order_item set orders_id = #{ordersId},order_item_statu='1'
+        where order_item_id in
+        <foreach collection="list" item="it" open="(" close=")" separator=",">
+            #{it.orderItemId}
+        </foreach>
+    </update>
+
+    <!-- 物流信息 -->
+    <insert id="addOrders" parameterType="Orders">
+        insert into orders(orders_id,orders_time,orders_total,user_id,user_real_name,user_address,user_telephone,orders_logistics)
+        values(#{ordersId},CURDATE(),#{ordersTotal},#{user.userId},#{user.userRealName},#{user.userAddress},#{user.userTelephone},#{ordersLogistics})
+    </insert>
+
+    <select id="selectOrderItemById" parameterType="string" resultMap="selectOrdersMap">
+        select order_item.*,product.* from order_item,product
+        where order_item.product_id = product.product_id
+        and order_item_or_delete = 0
+        and order_item_statu = 0
+        and order_item_id = #{value}
+    </select>
+</mapper>

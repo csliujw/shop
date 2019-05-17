@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.UserOrderMapper">
+    <resultMap id="selectOrders" type="Orders">
+        <id property="ordersId" column="orders_id"></id>
+        <result property="ordersTime" column="orders_time"></result>
+        <result property="ordersTotal" column="orders_total"></result>
+        <result property="ordersState" column="orders_state"></result>
+        <result property="ordersLogistics" column="order_logistics"></result>
+        <association property="user" javaType="User">
+            <id property="userId" column="user_id"/>
+            <result property="userUsername" column="user_username"></result>
+            <result property="userAddress" column="user_address"></result>
+            <result property="userTelephone" column="user_telephone"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectOrders" parameterType="Orders" resultMap="selectOrders">
+        select orders.*,user.user_username,user.user_id,user.user_address,user.user_telephone
+        from orders,user
+        where orders.user_id = user.user_id
+    </select>
+
+    <update id="updateOrders" parameterType="Orders">
+        update orders set orders_state = 1
+        where orders_id = #{ordersId}
+        and user_id = #{user.userId}
+    </update>
+
+    <!-- 查询未付款订单信息 -->
+    <select id="selectUnpay" parameterType="UserOrderVO" resultType="UserOrder">
+        SELECT p.`product_id`,p.`product_name`,p.`product_image`,p.`product_shop_price`,
+               oi.`order_item_id`,oi.`order_item_count`,oi.`order_item_subtotal`
+        FROM product p,order_item oi
+        WHERE p.`product_id` = oi.`product_id`
+        AND oi.`order_item_statu` = 0
+        AND oi.`user_id` = #{userId}
+        limit #{start},#{end}
+    </select>
+
+    <!-- 查询付款订单信息 -->
+    <select id="selectPay" parameterType="UserOrderVO" resultType="UserOrder">
+        select p.`product_id`,p.`product_name`,p.`product_image`,p.`product_shop_price`,
+               oi.`order_item_id`,oi.`order_item_count`,oi.`order_item_subtotal`,o.`orders_logistics`,o.`orders_state`
+        from product p,order_item oi,orders o
+        where p.`product_id` = oi.`product_id`
+        and oi.`orders_id` = o.`orders_id`
+        and oi.`order_item_statu` = 1
+        and oi.`user_id` = #{userId}
+        limit #{start},#{end}
+    </select>
+</mapper>

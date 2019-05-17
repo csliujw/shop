@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.SubdivisionMapper">
+    <!--新增-->
+    <insert id="addSubdivision" parameterType="Subdivision">
+        INSERT INTO subdivision(subdivision_id,subdivision_name,division_id,subdivision_or_delete)
+        SELECT #{subdivisionId},#{subdivisionName},#{division.divisionId},'0'
+        FROM DUAL
+        WHERE NOT EXISTS
+          (SELECT subdivision_name FROM subdivision
+          WHERE subdivision_name = #{subdivisionName})
+    </insert>
+
+    <!--修改-->
+    <update id="updateSubdivision" parameterType="Subdivision">
+        update subdivision
+        set subdivision_name=#{subdivisionName},division_id=#{division.divisionId}
+        where subdivision_id=#{subdivisionId}
+    </update>
+
+    <!--删除-->
+    <update id="deleteSubdivision" parameterType="Subdivision">
+      update subdivision
+      set subdivision_or_delete = '1'
+      where subdivision_id=#{subdivisionId}
+    </update>
+
+    <!--批量删除-->
+    <update id="deleteBatchSubdivision" parameterType="DeleteVO">
+        update subdivision
+        set subdivision_or_delete = '1'
+        where subdivision_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <resultMap id="selectAll" type="Subdivision">
+        <id property="subdivisionId" column="subdivision_id"></id>
+        <result property="subdivisionName" column="subdivision_name"></result>
+        <association property="division" column="division_id" javaType="Division">
+            <id property="divisionId" column="division_id"></id>
+            <result property="divisionName" column="division_name"></result>
+        </association>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="selectAllSubdivision" parameterType="Subdivision" resultType="long">
+        select count(subdivision.subdivision_id) from subdivision,division
+        where subdivision_or_delete=0
+        and subdivision.division_id = division.division_id
+        <if test="subdivisionName!=null and subdivisionName!=''">
+            and subdivision_name like concat("%",#{subdivisionName},"%")
+        </if>
+        <!-- 按所属一级类别查询 -->
+        <if test="division!=null and division.divisionId!=null and division.divisionId!=''">
+            and division.division_id = #{division.divisionId}
+        </if>
+    </select>
+
+    <!--分页条件查询-->
+    <select id="selectAllPageConditionSubdivision" parameterType="org.shop.utils.Page" resultMap="selectAll">
+        select
+            subdivision.subdivision_name,
+            subdivision.subdivision_id,
+            division.division_id,
+            division.division_name
+        from subdivision,division
+        where subdivision_or_delete=0
+        and subdivision.division_id = division.division_id
+        <if test="condition!=null and condition.subdivisionName!=null and condition.subdivisionName!=''">
+            and subdivision_name like concat("%",#{condition.subdivisionName},"%")
+        </if>
+        <!-- 按一级类别查询 -->
+        <if test="condition!=null and condition.division!=null and condition.division.divisionId!=null and condition.division.divisionId!=''">
+            and division.division_id = #{condition.division.divisionId}
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <!--查询单条数据具体信息-->
+    <select id="selectSingle" resultType="Subdivision" parameterType="Subdivision">
+        select * from subdivision
+        where subdivision_id = #{subdivisionId}
+    </select>
+
+</mapper>

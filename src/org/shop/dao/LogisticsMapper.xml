@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.LogisticsMapper">
+
+
+    <select id="selectAllByPage" parameterType="org.shop.utils.Page" resultType="Orders">
+        select orders.*,product.`product_name`
+        from orders,order_item,product
+        where orders.`orders_id` = order_item.`orders_id`
+        and order_item.`product_id` = product.`product_id`
+        and orders_or_delete=0
+        <if test="condition!=null and condition.userUsername!=null and condition.userUsername!=''">
+            and orders.user_username like concat("%",#{condition.userUsername},"%")
+        </if>
+        <if test="condition.productName!=null and condition.productName!=''">
+            and product.product_name like concat("%",#{condition.productName},"%")
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <select id="selectAll" parameterType="Orders" resultType="long">
+        select count(1)
+        from orders,order_item,product
+        where orders.`orders_id` = order_item.`orders_id`
+        and order_item.`product_id` = product.`product_id`
+        and orders_or_delete=0
+        <if test="userUsername!=null and userUsername!=''">
+            and orders.user_username like concat("%",#{userUsername},"%")
+        </if>
+        <if test="productName!=null and productName!=''">
+            and product.product_name like concat("%",#{productName},"%")
+        </if>
+    </select>
+    <!-- 删除 -->
+    <update id="delete" parameterType="Orders">
+      UPDATE orders SET orders_or_delete=1
+      WHERE orders_id=#{ordersId}
+    </update>
+
+    <!-- 批量删除 -->
+    <update id="deleteBatch" parameterType="DeleteVO">
+        UPDATE orders SET orders_or_delete=1
+        WHERE orders_id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 更新 发货信息 订单状态 -->
+    <update id="update" parameterType="Orders">
+        UPDATE orders SET orders_logistics = #{orderLogistics}
+        <if test="ordersState!=null and ordersState!=''">
+            ,orders_state = 1,orders_date = CURDATE()
+        </if>
+        where orders_id = #{ordersId}
+    </update>
+</mapper>

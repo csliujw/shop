@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.DivisionMapper">
+    <!-- 新增 -->
+    <insert id="addDivision" parameterType="org.shop.pojo.Division">
+        INSERT INTO division(division_id,division_name,division_or_delete)
+        VALUES(#{divisionId},#{divisionName},"0");
+    </insert>
+
+    <!-- 修改 -->
+    <update id="updateDivision" parameterType="org.shop.pojo.Division">
+        UPDATE division
+        SET division_name=#{divisionName}
+        WHERE division_id=#{divisionId}
+    </update>
+
+    <!-- 删除 -->
+    <update id="deleteDivision" parameterType="org.shop.pojo.Division">
+      UPDATE division SET division_or_delete=1
+      WHERE division_id=#{divisionId}
+    </update>
+
+    <!-- 批量删除 -->
+    <update id="deleteBatchDivision" parameterType="DeleteVO">
+        UPDATE division SET division_or_delete=1
+        WHERE division_id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 查询所有 -->
+    <select id="selectAllDivision" resultType="long" parameterType="org.shop.pojo.Division">
+        SELECT count(1)
+        FROM division
+        WHERE division_or_delete=0
+        <if test="divisionName!=null and divisionName!=''">AND division_name like CONCAT("%",#{divisionName},"%")</if>
+    </select>
+
+    <!-- 分页条件查询所有 -->
+    <select id="selectAllPageConditionDivision" parameterType="org.shop.utils.Page"
+        resultType="org.shop.pojo.Division">
+        SELECT division_id,division_name
+        FROM division
+        WHERE division_or_delete=0
+        <if test="condition!=null and condition.divisionName!=null and condition.divisionName!=''">
+            and division_name like concat("%",#{condition.divisionName},"%")
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <!-- 是否存在 -->
+    <select id="orExit" parameterType="Division" resultType="boolean">
+        select count(1)
+        from division
+        where division_name=#{divisionName}
+        and division_or_delete = 0
+    </select>
+
+    <!-- 查询单条数据的具体信息 -->
+    <select id="selectSingle" parameterType="Division" resultType="Division">
+        select division_id,division_name from division
+        where division_id=#{divisionId}
+        and division_or_delete = 0
+    </select>
+    <resultMap id="selectAll" type="Division">
+        <id property="divisionId" column="division_id"></id>
+        <result property="divisionName" column="division_name"/>
+        <collection property="subdivision" ofType="Subdivision">
+            <id property="subdivisionId" column="subdivision_id"></id>
+            <result property="subdivisionName" column="subdivision_name"/>
+        </collection>
+    </resultMap>
+    <select id="selectAllDetail" resultMap="selectAll">
+        select division.*,subdivision.* from division,subdivision
+        where division_or_delete = 0
+        and subdivision.division_id = division.division_id
+    </select>
+</mapper>

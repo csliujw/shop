@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.OrderItemMapper">
+    <!-- 删除 -->
+    <update id="delete" parameterType="OrderItem">
+      UPDATE order_item SET order_item_or_delete=1
+      WHERE order_item_id=#{orderItemId}
+    </update>
+
+    <!-- 批量删除 -->
+    <update id="deleteBatch" parameterType="DeleteVO">
+        UPDATE order_item SET order_item_or_delete=1
+        WHERE order_item_id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <resultMap id="selectAll" type="OrderItem">
+        <id property="orderItemId" column="order_item_id"/>
+        <result property="orderItemCount" column="order_item_count"/>
+        <result property="orderItemSubtotal" column="order_item_subtotal"/>
+        <result property="orderItemDate" column="order_item_date"/>
+        <result property="orderItemStatu" column="order_item_statu"/>
+        <association property="product" column="product_id" javaType="Product">
+            <result property="productName" column="product_name"/>
+            <result property="productImage" column="product_image"/>
+            <result property="productShopPrice" column="product_shop_price"/>
+        </association>
+        <association property="user" column="user_id" javaType="User">
+            <result property="userRealName" column="user_real_name"/>
+            <result property="userUsername" column="user_username"/>
+        </association>
+        <association property="division" column="division_id" javaType="Division">
+            <id property="divisionId" column="division_id"/>
+            <result property="divisionName" column="division_name"/>
+        </association>
+        <association property="subdivision" column="subdivision_id" javaType="Subdivision">
+            <id property="subdivisionId" column="subdivision_id"/>
+            <result property="subdivisionName" column="subdivision_name"/>
+        </association>
+    </resultMap>
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="long" parameterType="OrderItem">
+        SELECT count(1)
+        FROM product p,division d,subdivision sb,USER u,order_item oi
+        WHERE p.`division_id` = d.`division_id`
+        AND p.`subdivision_id` = sb.`subdivision_id`
+        AND p.`product_id` = oi.`product_id`
+        AND u.`user_id` = oi.`user_id`
+        AND oi.`order_item_or_delete` = 0
+        <!-- 用户名 -->
+        <if test="user!=null and user.userRealName!=null and user.userRealName!=''">
+            AND (u.`user_real_name` LIKE CONCAT("%",#{user.userRealName},"%") or u.user_username like
+            CONCAT("%",#{user.userRealName},"%"))
+        </if>
+        <if test="division!=null and division.divisionId!=null and division.divisionId!=''">
+            <!-- 商品一级类别 -->
+            AND d.`division_id` = #{product.division.divisionId}
+        </if>
+        <if test="subdivision!=null and subdivision.subdivisionId!=null and subdivision.subdivisionId!=''">
+            <!-- 商品二级类别 -->
+            AND sb.`subdivision_id` = #{subdivision.subdivisionId}
+        </if>
+        <if test="product!=null and product.productName!=null and product.productName!=''">
+            <!-- 商品名称 -->
+            AND p.`product_name` LIKE CONCAT("%",#{product.productName},"%")
+        </if>
+    </select>
+
+    <!-- 分页条件查询所有 -->
+    <select id="selectAllPageCondition" resultMap="selectAll" parameterType="org.shop.utils.Page">
+        SELECT p.`product_name`,p.`product_image`,p.`product_shop_price`,
+        d.`division_id`,d.`division_name`,sb.`subdivision_id`,sb.`subdivision_name`,
+        u.`user_username`,u.`user_real_name`,
+        oi.`order_item_id`,oi.`order_item_count`,oi.`order_item_subtotal`,oi.`order_item_date`,oi.`order_item_statu`
+        FROM product p,division d,subdivision sb,USER u,order_item oi
+        WHERE p.`division_id` = d.`division_id`
+        AND p.`subdivision_id` = sb.`subdivision_id`
+        AND p.`product_id` = oi.`product_id`
+        AND u.`user_id` = oi.`user_id`
+        AND oi.`order_item_or_delete` = 0
+        <!-- 用户名 -->
+        <if test="condition!=null and condition.user!=null and condition.user.userRealName!=null and condition.user.userRealName!=''">
+            AND (u.`user_real_name` LIKE CONCAT("%",#{condition.user.userRealName},"%") or u.user_username like
+            CONCAT("%",#{condition.user.userRealName},"%"))
+        </if>
+        <if test="condition!=null and condition.division!=null and condition.division.divisionId!=null and condition.division.divisionId!=''">
+            <!-- 商品一级类别 -->
+            AND d.`division_id` = #{condition.product.division.divisionId}
+        </if>
+        <if test="condition!=null and condition.subdivision!=null and condition.subdivision.subdivisionId!=null and condition.subdivision.subdivisionId!=''">
+            <!-- 商品二级类别 -->
+            AND sb.`subdivision_id` = #{condition.product.subdivision.subdivisionId}
+        </if>
+        <if test="condition!=null and condition.product!=null and condition.product.productName!=null and condition.product.productName!=''">
+            <!-- 商品名称 -->
+            AND p.`product_name` LIKE CONCAT("%",#{condition.product.productName},"%")
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+</mapper>

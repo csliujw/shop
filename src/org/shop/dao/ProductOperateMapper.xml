@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.ProductOperateMapper">
+
+    <resultMap id="selectAllDivision" type="Division">
+        <id property="divisionId" column="division_id"></id>
+        <result property="divisionName" column="division_name"/>
+        <collection property="subdivision" ofType="Subdivision">
+            <id property="subdivisionId" column="subdivision_id"></id>
+            <result property="subdivisionName" column="subdivision_name"/>
+        </collection>
+    </resultMap>
+    <!--商品一二级类别的查询-->
+    <select id="selectAllDetail" resultMap="selectAllDivision">
+        select division.*,subdivision.* from division,subdivision
+        where division_or_delete = 0 and subdivision_or_delete = 0
+        and subdivision.division_id = division.division_id
+    </select>
+
+
+    <resultMap id="selectAllProduct" type="Product">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productDate" column="product_date"/>
+        <result property="productDetail" column="product_detail"/>
+        <result property="productImage" column="product_image"/>
+        <result property="productMarketPrice" column="product_market_price"/>
+        <result property="productShopPrice" column="product_shop_price"/>
+        <result property="productOrHot" column="product_or_hot"/>
+        <result property="productOrDelete" column="product_or_delete"/>
+        <association property="division" javaType="Division">
+            <id property="divisionId" column="division_id"/>
+            <result property="divisionName" column="division_name"/>
+        </association>
+        <association property="subdivision" javaType="Subdivision">
+            <id property="subdivisionId" column="subdivision_id"/>
+            <result property="subdivisionName" column="subdivision_name"/>
+        </association>
+    </resultMap>
+
+    <!-- 仅仅是商城首页数据的显示 按热门否排序-->
+    <select id="selectProductLimit" parameterType="Division" resultMap="selectAllProduct">
+        SELECT product.*,division.*,subdivision.*
+        FROM product,division,subdivision
+        WHERE product.division_id = division.division_id AND product.subdivision_id = subdivision.subdivision_id
+        AND product_or_delete = 0
+        AND product.division_id = #{divisionId}
+        ORDER BY  product_or_hot DESC
+        LIMIT 0,10
+    </select>
+
+    <!--查询所有商品  可能用到的条件-->
+    <select id="selectAllProduct" parameterType="Product" resultType="long">
+        select count(1)
+        from product,division,subdivision
+        where product.division_id = division.division_id
+        and product.subdivision_id = subdivision.subdivision_id
+        and product_or_delete = 0
+        <if test="productName!=null and productName!=''">
+            and product_name like concat("%",#{productName},"%")
+        </if>
+        <if test="division!=null and division.divisionId!=null and division.divisionId!=''">
+            and product.division_id = #{division.divisionId}
+        </if>
+        <if test="subdivision!=null and subdivision.subdivisionId!=null and subdivision.subdivisionId!=''">
+            and product.subdivision_id = #{subdivision.subdivisionId}
+        </if>
+    </select>
+
+    <!--分页条件查询-->
+    <select id="selectAllPageConditionProduct" parameterType="org.shop.utils.Page" resultMap="selectAllProduct">
+        select product.*,division.*,subdivision.*
+        from product,division,subdivision
+        where product.division_id = division.division_id and product.subdivision_id = subdivision.subdivision_id
+        and product_or_delete = 0
+        <if test="condition!=null and condition.productName!=null and condition.productName!=''">
+            and product_name like concat("%",#{condition.productName},"%")
+        </if>
+        <if test="condition!=null and condition.division!=null and condition.division.divisionId!=null and condition.division.divisionId!=''">
+            and product.division_id = #{condition.division.divisionId}
+        </if>
+        <if test="condition!=null and condition.subdivision!=null and condition.subdivision.subdivisionId!=null and condition.subdivision.subdivisionId!=''">
+            and product.subdivision_id = #{condition.subdivision.subdivisionId}
+        </if>
+        ORDER BY product_or_hot DESC
+        limit #{start},#{limit}
+    </select>
+
+    <!--查询单条数据具体信息-->
+    <select id="selectSingle" resultMap="selectAllProduct" parameterType="string">
+        select product.*,division.*,subdivision.*
+        from product,division,subdivision
+        where product.division_id = division.division_id and product.subdivision_id = subdivision.subdivision_id
+        and product_id=#{productId}
+        and product_or_delete=0
+    </select>
+
+    <!-- selectByName -->
+    <select id="selectByName" resultMap="selectAllProduct" parameterType="Product">
+        select product.*,division.*,subdivision.*
+        from product,division,subdivision
+        where product.division_id = division.division_id and product.subdivision_id = subdivision.subdivision_id
+        and product_name like concat("%",#{productName},"%")
+        and product_or_delete=0
+        ORDER BY product_or_hot DESC
+    </select>
+</mapper>

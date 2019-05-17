@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.UserOperateMapper">
+    <select id="login" parameterType="User" resultType="User">
+        select * from user
+        where user_username=#{userUsername} and user_password=#{userPassword}
+    </select>
+
+    <select id="loginTel" parameterType="User" resultType="User">
+        select * from user
+        where user_username = #{userUsername} and user_telephone = #{userTelephone}
+    </select>
+
+    <insert id="register" parameterType="User">
+        insert into
+        user(user_id,user_username,user_password,
+        user_email,user_real_name,
+        user_sex,user_birthday,user_telephone)
+        values(#{userId},#{userUsername},#{userPassword},
+        #{userEmail},#{userRealName},
+        #{userSex},#{userBirthday},#{userTelephone})
+    </insert>
+
+    <select id="selectUser" parameterType="string" resultType="User">
+        select * from user
+        where user_id = #{value}
+    </select>
+
+    <!-- 修改用户收货地址 修改用户电话 -->
+    <update id="updateUser" parameterType="User">
+        update user
+        <set>
+            <if test="userPassword!=null and userPassword!=''">user_password = #{userPassword},</if>
+            <if test="userTelephone!=null and userTelephone!=''">user_telephone = #{userTelephone},</if>
+            <if test="userAddress!=null and userAddress!=''">user_address = #{userAddress},</if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!-- 修改用户密码 -->
+    <update id="updatePassword" parameterType="User">
+        update user set user_password = #{newPassword}
+        where user_id = #{userId}
+        and user_password = #{userPassword}
+    </update>
+    <!-- 校验用户名是否存在 -->
+    <select id="orExit" parameterType="string" resultType="boolean">
+        select count(1) from user
+        where user_username = #{userUsername}
+    </select>
+</mapper>

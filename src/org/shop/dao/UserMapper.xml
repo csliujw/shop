@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.UserMapper">
+
+    <!--删除-->
+    <delete id="deleteUser" parameterType="User">
+      delete from user
+      where user_id=#{userId}
+      and user_state !='1'
+    </delete>
+
+    <!--批量删除-->
+    <delete id="deleteBatchUser" parameterType="DeleteVO">
+        delete from user
+        where user_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--查询所有 姓名-->
+    <select id="selectAllUser" parameterType="User" resultType="long">
+        select count(1) from user
+        where  user_username like concat("%",#{userUsername},"%")
+    </select>
+
+    <!--分页条件查询 姓名-->
+    <select id="selectAllPageConditionUser" parameterType="org.shop.utils.Page" resultType="User">
+        select *
+        from user
+        where  user_username like concat("%",#{condition.userUsername},"%")
+        limit #{start},#{limit}
+    </select>
+
+    <!--查询单条数据具体信息-->
+    <select id="selectSingle" resultType="User" parameterType="User">
+        select * from user
+        where user_id = #{userId}
+    </select>
+
+</mapper>
