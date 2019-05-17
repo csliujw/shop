@@ -1,7 +1,6 @@
 package org.shop.service;
 
 import org.shop.pojo.DeleteVO;
-import org.shop.pojo.Division;
 import org.shop.utils.Page;
 
 import java.util.List;

@@ -1,7 +1,8 @@
 package org.shop.pojo;
+
 /**
  * admin
- * */
+ */
 public class Admin {
     private String adminId;
     private String adminUsername;

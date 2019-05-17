@@ -9,15 +9,15 @@ class FormUtils {
     /**
      *表单数据序列化 isStr为true时表示返回字符串
      */
-    serializeArray(formID,isStr) {
+    serializeArray(formID, isStr) {
         var values = {};
         var params = formID.serializeArray();
         for (var temp in params) {
             values[params[temp].name] = params[temp].value;
         }
-        if(isStr==true){
+        if (isStr == true) {
             return JSON.stringify(values);
-        }else{
+        } else {
             return values;
         }
     }

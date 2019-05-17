@@ -14,17 +14,17 @@ layui.define(['layer'], function (exports) {
             var checkAll = document.getElementsByClassName('check-all'); //全选框
             var SelectedPieces = document.getElementsByClassName('Selected-pieces')[0];//总件数
             var piecesTotal = document.getElementsByClassName('pieces-total')[0];//总价
-            var batchdeletion = document.getElementsByClassName('batch-deletion')[0]//批量删除按钮
+            var batchdeletion = document.getElementsByClassName('batch-deletion')[0];//批量删除按钮
 
             //计算
             function getTotal() {
                 var seleted = 0, price = 0;
-                var singlePrice=0;//单价
+                var singlePrice = 0;//单价
                 for (var i = 0; i < uls.length; i++) {
                     if (uls[i].getElementsByTagName('input')[0].checked) {
                         seleted += parseInt(uls[i].getElementsByClassName('Quantity-input')[0].value);
                         singlePrice = parseFloat(uls[i].getElementsByClassName('th-su')[0].innerHTML);
-                        price += singlePrice*parseInt(uls[i].getElementsByClassName('Quantity-input')[0].value);
+                        price += singlePrice * parseInt(uls[i].getElementsByClassName('Quantity-input')[0].value);
                         console.log(parseInt(uls[i].getElementsByClassName('Quantity-input')[0].value));
                     }
                 }
@@ -37,7 +37,7 @@ layui.define(['layer'], function (exports) {
             function getSubTotal(ul) {
                 var unitprice = parseFloat(ul.getElementsByClassName('th-su')[0].innerHTML);//单价
                 var count = parseInt(ul.getElementsByClassName('Quantity-input')[0].value);//数目
-                var SubTotal = parseFloat(unitprice * count)
+                var SubTotal = parseFloat(unitprice * count);
                 ul.getElementsByClassName('sum')[0].innerHTML = SubTotal.toFixed(2);
             }
 
@@ -82,7 +82,7 @@ layui.define(['layer'], function (exports) {
                         case 'dele-btn':
                             layer.confirm('你确定要删除吗555', {
                                 yes: function (index, layero) {
-                                    layer.close(index)
+                                    layer.close(index);
                                     that.parentNode.removeChild(that);
                                     getTotal();
                                 }
@@ -96,7 +96,7 @@ layui.define(['layer'], function (exports) {
                 if (SelectedPieces.innerHTML != 0) {
                     layer.confirm('你确定要删除吗', {
                         yes: function (index, layero) {
-                            layer.close(index)
+                            layer.close(index);
                             for (var i = 0; i < uls.length; i++) {
                                 var input = uls[i].getElementsByTagName('input')[0];
                                 if (input.checked) {
@@ -111,11 +111,11 @@ layui.define(['layer'], function (exports) {
                 } else {
                     layer.msg('请选择商品')
                 }
-            }
+            };
             checkAll[0].checked = true;
             checkAll[0].onclick();
         }
 
-    }
+    };
     exports('car', car)
 }); 

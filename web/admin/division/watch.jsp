@@ -83,6 +83,7 @@
                 function close() {
                     layer.closeAll();
                 }
+
                 setTimeout(close, 2000);
             },
             error: function () {
@@ -126,7 +127,7 @@
             data: {
                 "ids": array
             },
-            url: "${pageContext.request.contextPath }/" +  urls,// url
+            url: "${pageContext.request.contextPath }/" + urls,// url
             success: function (json) {
                 layer.open({
                     title: "操作信息",
@@ -180,7 +181,7 @@
             let data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
-                    let str = {"divisionId": data.divisionId}
+                    let str = {"divisionId": data.divisionId};
                     deleteSingle(str, "division/delete.do", obj);
                     layer.close(index);
                 });

@@ -68,12 +68,12 @@ public class ProductOperateController {
 
     //按名称查询
     @RequestMapping("searchByName.do")
-    public String searchByName(Product pro,Model model) {
-        if(pro.getProductName()==null){
+    public String searchByName(Product pro, Model model) {
+        if (pro.getProductName() == null) {
             pro.setProductName("");
         }
         List<Product> productList = product.selectProductByName(pro);
-        model.addAttribute("products",productList);
+        model.addAttribute("products", productList);
         return "forward:/search_list.jsp";
     }
 

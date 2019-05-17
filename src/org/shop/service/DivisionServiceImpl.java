@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+
 @Service("divisionServiceImpl")
 @Transactional
 public class DivisionServiceImpl implements IBaseService<Division> {
@@ -21,13 +22,15 @@ public class DivisionServiceImpl implements IBaseService<Division> {
 
     /**
      * 查询所有信息
+     *
      * @return
      */
     @Override
-    public List<Division> selectAllDetail(){
+    public List<Division> selectAllDetail() {
         List<Division> list = divisionMapper.selectAllDetail();
         return list;
     }
+
     /**
      * @param division
      * @return 新增结果
@@ -71,10 +74,7 @@ public class DivisionServiceImpl implements IBaseService<Division> {
     @Override
     public boolean deleteBatch(DeleteVO vo) {
         int result = divisionMapper.deleteBatchDivision(vo);
-        if (result == vo.getIds().length) {
-            return true;
-        }
-        return false;
+        return result == vo.getIds().length;
     }
 
     /**

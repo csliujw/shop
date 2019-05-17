@@ -18,29 +18,30 @@ public class UserOperateService {
         return mapper.loginTel(user);
     }
 
-    public boolean register(User user){
+    public boolean register(User user) {
         user.setUserId(UUID.randomUUID().toString());
         return mapper.register(user);
     }
 
-    public boolean orExit(String username){
+    public boolean orExit(String username) {
         return mapper.orExit(username);
     }
 
-    public boolean updatePassword(User user){
+    public boolean updatePassword(User user) {
         return mapper.updatePassword(user);
     }
 
-    public boolean updateAddress(User user){
+    public boolean updateAddress(User user) {
         return mapper.updateUser(user);
     }
 
     /**
      * 暂时不用
+     *
      * @param user
      * @return
      */
-    public boolean updateTel(User user){
+    public boolean updateTel(User user) {
         return mapper.updateUser(user);
     }
 }

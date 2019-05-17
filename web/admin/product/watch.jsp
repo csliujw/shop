@@ -71,21 +71,24 @@
                 <input type="text" hidden="none" id="productId" name="productId">
                 <label class="layui-form-label">商品名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="productName" id="productName" lay-verify="required|title" autocomplete="off"
+                    <input type="text" name="productName" id="productName" lay-verify="required|title"
+                           autocomplete="off"
                            placeholder="请输入名称"
                            class="layui-input">
                 </div>
                 <br>
                 <label class="layui-form-label">市场价格</label>
                 <div class="layui-input-block">
-                    <input type="text" name="productMarketPrice" id="productMarketPrice" lay-verify="required|number" autocomplete="off"
+                    <input type="text" name="productMarketPrice" id="productMarketPrice" lay-verify="required|number"
+                           autocomplete="off"
                            placeholder="请输入名称"
                            class="layui-input">
                 </div>
                 <br>
                 <label class="layui-form-label">商城价格</label>
                 <div class="layui-input-block">
-                    <input type="text" name="productShopPrice" id="productShopPrice" lay-verify="required|number" autocomplete="off"
+                    <input type="text" name="productShopPrice" id="productShopPrice" lay-verify="required|number"
+                           autocomplete="off"
                            placeholder="请输入名称"
                            class="layui-input">
                 </div>
@@ -173,9 +176,11 @@
                     title: "操作信息",
                     content: json.message //这里content是一个普通的String
                 });
+
                 function close() {
                     layer.closeAll();
                 }
+
                 setTimeout(close, 2000);
             },
             error: function () {
@@ -234,8 +239,9 @@
             }
         });
     }
+
     //修改表单的二级联动初始数据
-    function selectOption(){
+    function selectOption() {
         let divisionValue = $("select[name='divisionId']").val();
         let str = JSON.parse('${s}');
         let temp;
@@ -269,7 +275,7 @@
         $("#searchSubdivisionName").html(insert);
     });
     //layui模块加载
-    layui.use(['table', 'form', 'layedit', 'laydate','upload'], function () {
+    layui.use(['table', 'form', 'layedit', 'laydate', 'upload'], function () {
         let table = layui.table;
         let form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
         let upload = layui.upload;
@@ -355,7 +361,7 @@
             let data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
-                    let str = {"productId": data.productId}
+                    let str = {"productId": data.productId};
                     deleteSingle(str, "product/delete.do", obj);
                     layer.close(index);
                 });
@@ -372,10 +378,10 @@
                         $("#productMarketPrice").val(data.productMarketPrice);
                         $("#productShopPrice").val(data.productShopPrice);
                         $("#productDetail").val(data.productDetail);
-                        if(imgUrl==''){
+                        if (imgUrl == '') {
                             imgUrl = data.productImage;
                         }
-                        $("#productImage").attr("src","<%=request.getContextPath()%>/"+data.productImage);
+                        $("#productImage").attr("src", "<%=request.getContextPath()%>/" + data.productImage);
                         //二级联动
                         form.on('select(selectDivisionId)', function (data) {
                             selectOption();
@@ -393,22 +399,22 @@
                     let $productName = $("#productName").val();
                     let $productId = $("#productId").val();
                     let $prdocutMarketPrice = $("#productMarketPrice").val();
-                    let $productShopPrice=$("#productShopPrice").val();
-                    let $productDetail= $("#productDetail").val();
+                    let $productShopPrice = $("#productShopPrice").val();
+                    let $productDetail = $("#productDetail").val();
                     let $subdivisionId = $("#subdivisionId").val();
                     let $divisionId = $("#divisionId").val();
                     //let img = imgUrl;
                     let jsonStr = {
-                        "productName":$productName,
-                        "productId":$productId,
-                        "productMarketPrice":$prdocutMarketPrice,
-                        "productShopPrice":$productShopPrice,
-                        "productDetail":$productDetail,
-                        "productImage":imgUrl,
-                        "division":{"divisionId":$divisionId},
-                        "subdivision":{"subdivisionId":$subdivisionId}
+                        "productName": $productName,
+                        "productId": $productId,
+                        "productMarketPrice": $prdocutMarketPrice,
+                        "productShopPrice": $productShopPrice,
+                        "productDetail": $productDetail,
+                        "productImage": imgUrl,
+                        "division": {"divisionId": $divisionId},
+                        "subdivision": {"subdivisionId": $subdivisionId}
                     };
-                    console.log(jsonStr.toString()+"=========");
+                    console.log(jsonStr.toString() + "=========");
                     update(JSON.stringify(jsonStr), "product/update.do");
                     event.preventDefault();
                 });

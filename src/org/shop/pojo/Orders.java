@@ -1,11 +1,11 @@
 package org.shop.pojo;
 
 /**
- *  订单信息
- *  主要为显示物流信息 用户信息 商品信息
- *  通过order_item表中的orders_id 与之关联
- *  orders与order_item 是一对多的关系
- * */
+ * 订单信息
+ * 主要为显示物流信息 用户信息 商品信息
+ * 通过order_item表中的orders_id 与之关联
+ * orders与order_item 是一对多的关系
+ */
 public class Orders {
     private String ordersId;
     private String ordersTime;

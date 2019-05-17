@@ -15,6 +15,7 @@ public class User {
     private String userState;//用户状态，是否注销了账号
     private String userAddress;//用户收货地址
     private String newPassword;
+
     public String getUserId() {
         return userId;
     }

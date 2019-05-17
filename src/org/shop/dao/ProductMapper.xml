@@ -35,28 +35,28 @@
         update product
         <set>
             <if test="productName!=null and productName!=''">
-            product_name = #{productName},
+                product_name = #{productName},
             </if>
             <if test="productMarketPrice!=null and productMarketPrice!=''">
-            product_market_price = #{productMarketPrice},
+                product_market_price = #{productMarketPrice},
             </if>
             <if test="productShopPrice!=null and productShopPrice!=''">
-            product_shop_price = #{productShopPrice},
+                product_shop_price = #{productShopPrice},
             </if>
             <if test="productImage!=null and productImage!=''">
-            product_image = #{productImage},
+                product_image = #{productImage},
             </if>
             <if test="productDate!=null and productDate!=''">
-            product_date = #{productDate},
+                product_date = #{productDate},
             </if>
             <if test="productOrHot!=null and productOrHot!=''">
-            product_or_hot = #{productOrHot},
+                product_or_hot = #{productOrHot},
             </if>
             <if test="productDetail!=null and productDetail!=''">
-            product_detail = #{productDetail},
+                product_detail = #{productDetail},
             </if>
             <if test="division!=null and division.divisionId!=null and division.divisionId!=''">
-            division_id = #{division.divisionId},
+                division_id = #{division.divisionId},
             </if>
             <if test="subdivision!= null and subdivision.subdivisionId!=null and subdivision.subdivisionId!=''">
                 subdivision_id = #{subdivision.subdivisionId}

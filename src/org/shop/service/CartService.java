@@ -17,34 +17,36 @@ public class CartService {
 
     /**
      * 提交购物车信息时将购物车中的数据写入数据库
+     *
      * @param list
      * @return
      */
-    public boolean addProduct( List<CartItem> list) {
+    public boolean addProduct(List<CartItem> list) {
         int count = 0;
-        for(CartItem item:list){
-            count+=cartMapper.addProduct(item);
+        for (CartItem item : list) {
+            count += cartMapper.addProduct(item);
         }
-        if(count>0) return true;
-        return false;
+        return count > 0;
     }
 
     /**
      * 付款成功后 添加至物流信息表。
+     *
      * @param orders
      * @return
      */
     public boolean addOrders(Orders orders) {
         int i = cartMapper.addOrders(orders);
-        return i > 0 ? true : false;
+        return i > 0;
     }
 
     /**
      * 查询本人的所有订单信息
+     *
      * @param userId
      * @return
      */
-    public List<OrderItem> selectOrderItem(String userId){
+    public List<OrderItem> selectOrderItem(String userId) {
         return cartMapper.selectOrderItem(userId);
     }
 

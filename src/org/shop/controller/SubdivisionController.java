@@ -23,11 +23,12 @@ public class SubdivisionController {
 
     /**
      * 查询数据
+     *
      * @return
      */
     @RequestMapping("list.do")
     @ResponseBody
-    public String list(Page<Subdivision> page,Subdivision sub,Division division){
+    public String list(Page<Subdivision> page, Subdivision sub, Division division) {
         sub.setDivision(division);
         page.setCondition(sub);
         String list = subdivisionService.selectAllPageCondition(page);
@@ -36,7 +37,7 @@ public class SubdivisionController {
 
     @RequestMapping("add.do")
     @ResponseBody
-    public String add(Subdivision sub, Division division){
+    public String add(Subdivision sub, Division division) {
         sub.setDivision(division);
         boolean add = subdivisionService.add(sub);
         return JSONResult.add(add);
@@ -44,7 +45,7 @@ public class SubdivisionController {
 
     @RequestMapping("update.do")
     @ResponseBody
-    public String update(Subdivision sub,Division division){
+    public String update(Subdivision sub, Division division) {
         sub.setDivision(division);
         boolean update = subdivisionService.update(sub);
         return JSONResult.update(update);
@@ -52,14 +53,14 @@ public class SubdivisionController {
 
     @RequestMapping("delete.do")
     @ResponseBody
-    public String delete(Subdivision sub){
+    public String delete(Subdivision sub) {
         boolean delete = subdivisionService.delete(sub);
         return JSONResult.delete(delete);
     }
 
     @RequestMapping("deletes.do")
     @ResponseBody
-    public String deletes(DeleteVO vo){
+    public String deletes(DeleteVO vo) {
         boolean deletes = subdivisionService.deleteBatch(vo);
         return JSONResult.deletes(deletes);
     }

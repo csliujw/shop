@@ -64,10 +64,10 @@
     <!--分页条件查询-->
     <select id="selectAllPageConditionSubdivision" parameterType="org.shop.utils.Page" resultMap="selectAll">
         select
-            subdivision.subdivision_name,
-            subdivision.subdivision_id,
-            division.division_id,
-            division.division_name
+        subdivision.subdivision_name,
+        subdivision.subdivision_id,
+        division.division_id,
+        division.division_name
         from subdivision,division
         where subdivision_or_delete=0
         and subdivision.division_id = division.division_id

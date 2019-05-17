@@ -3,7 +3,6 @@ package org.shop.service;
 import com.google.gson.Gson;
 import org.shop.dao.OrderItemMapper;
 import org.shop.pojo.DeleteVO;
-import org.shop.pojo.Division;
 import org.shop.pojo.OrderItem;
 import org.shop.utils.JSONData;
 import org.shop.utils.Page;
@@ -35,9 +34,7 @@ public class OrderItemServiceImpl implements IBaseService<OrderItem> {
     @Override
     public boolean deleteBatch(DeleteVO vo) {
         int result = mapper.deleteBatch(vo);
-        if (vo.getIds().length == result)
-            return true;
-        return false;
+        return vo.getIds().length == result;
     }
 
     @Override

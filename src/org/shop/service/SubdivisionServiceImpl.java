@@ -13,10 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SubdivisionServiceImpl implements IBaseService<Subdivision>{
+public class SubdivisionServiceImpl implements IBaseService<Subdivision> {
 
     @Autowired
     private SubdivisionMapper subdivisionMapper;
+
     @Override
     public boolean add(Subdivision subdivision) {
         subdivision.setSubdivisionId(UUID.randomUUID().toString());
@@ -39,9 +40,7 @@ public class SubdivisionServiceImpl implements IBaseService<Subdivision>{
     @Override
     public boolean deleteBatch(DeleteVO vo) {
         int count = subdivisionMapper.deleteBatchSubdivision(vo);
-        if(count==vo.getIds().length)
-            return true;
-        return false;
+        return count == vo.getIds().length;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ProductOperateService {
     }
 
     //商品信息模糊查询
-    public List<Product> selectProductByName(Product pro){
+    public List<Product> selectProductByName(Product pro) {
         return productOperateMapper.selectByName(pro);
     }
 }

@@ -246,7 +246,7 @@
             contentType: "application/json",
             success: function (json) {
                 //未付款
-                if (json.length == 0&&unStart!=0) {
+                if (json.length == 0 && unStart != 0) {
                     layer.msg("无未付款订单数据!");
                     this.event.preventDefault();
                 }
@@ -283,7 +283,7 @@
             contentType: "application/json",
             success: function (json) {
                 console.log(json.length);
-                if (json.length==0&&Start!=0) {
+                if (json.length == 0 && Start != 0) {
                     layer.msg("已无付款订单数据!");
                 } else {
                     for (let i = 0; i < json.length; i++) {
@@ -347,7 +347,7 @@
                         "userPassword": $oldPwd,
                         "newPassword": $newPwd,
                         "userId": '${userInfo.userId}'
-                    }
+                    };
                     let urls = "${pageContext.request.contextPath}/user/updatePassword.do";
                     layer.msg(urls);
                     update(urls, JSON.stringify(values));
@@ -366,7 +366,7 @@
                 "userTelephone": $userTelephone,
                 "userAddress": $userAddress,
                 "userId": '${userInfo.userId}'
-            }
+            };
             let urls = "${pageContext.request.contextPath}/user/updateAddress.do";
             update(urls, JSON.stringify(values));
             layer.msg("下次购物时开始生效!");

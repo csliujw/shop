@@ -1,8 +1,9 @@
 package org.shop.dao;
 
 import org.shop.pojo.DeleteVO;
-import org.shop.utils.Page;
 import org.shop.pojo.Division;
+import org.shop.utils.Page;
+
 import java.util.List;
 
 public interface DivisionMapper {

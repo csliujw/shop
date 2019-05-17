@@ -9,12 +9,14 @@ public class JSONData<T> {
     private String count;// 查询的数据的总数 为分页做准备
     private List<T> data;// 分页查询查询到的数据
 
-    public JSONData(){}
+    public JSONData() {
+    }
 
-    public JSONData(String count,List<T> data){
+    public JSONData(String count, List<T> data) {
         this.count = count;
         this.data = data;
     }
+
     public String getCode() {
         return code;
     }

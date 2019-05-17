@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.shop.dao.ProductMapper;
 import org.shop.pojo.DeleteVO;
 import org.shop.pojo.Product;
-import org.shop.pojo.Subdivision;
 import org.shop.utils.JSONData;
 import org.shop.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +43,7 @@ public class ProductServiceImpl implements IBaseService<Product> {
     @Override
     public boolean deleteBatch(DeleteVO vo) {
         int count = productMapper.deleteBatchProduct(vo);
-        if(count==vo.getIds().length){
-            return true;
-        }
-        return false;
+        return count == vo.getIds().length;
     }
 
     @Override

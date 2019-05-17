@@ -6,7 +6,7 @@ import java.util.List;
  * 商品一级分类
  * 一级分类中包含多个子类，故用Subdivision作为其字段
  * 一对多的关系
- * */
+ */
 public class Division {
     private String divisionId;
     private String divisionName;

@@ -80,7 +80,8 @@
         text-decoration: none;
         color: inherit;
     }
-    p{
+
+    p {
         margin: 21px 0 10px;
         text-align: center;
     }
@@ -173,7 +174,9 @@
                         <h2 style="margin-left: 144px;">&nbsp;热门商品: ${list[0].division.divisionName}类</h2>
                     </div>
                     <div class="col-md-3" style="margin-right: 0px">
-                        <h3 style="margin-left: 150px;"><a href="${pageContext.request.contextPath}/products/search.do?division.divisionId=${list[0].division.divisionId}">查看全部</a></h3>
+                        <h3 style="margin-left: 150px;"><a
+                                href="${pageContext.request.contextPath}/products/search.do?division.divisionId=${list[0].division.divisionId}">查看全部</a>
+                        </h3>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,7 @@ public class UserOrder {
     private String orderItemSubtotal;//总价钱
     private String ordersLogistics;
     private String ordersSate;//订单状态
+
     public String getProductId() {
         return productId;
     }
@@ -72,6 +73,7 @@ public class UserOrder {
     public String getOrdersLogistics() {
         return ordersLogistics;
     }
+
     public void setOrdersLogistics(String ordersLogistics) {
         this.ordersLogistics = ordersLogistics;
     }
@@ -79,6 +81,7 @@ public class UserOrder {
     public String getOrdersSate() {
         return ordersSate;
     }
+
     public void setOrdersSate(String ordersSate) {
         this.ordersSate = ordersSate;
     }

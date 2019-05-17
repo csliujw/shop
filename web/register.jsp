@@ -150,14 +150,14 @@
         //校验数据
         $("#button").click(function () {
             if ($("#userPassword").val() != $("#repassword").val()) {
-                layer.alert("两次密码不一致！")
+                layer.alert("两次密码不一致！");
                 event.preventDefault();
             }
         });
         //获取验证码
         $("#getCode").click(function () {
             let tel = $("input[name='userTelephone']").val();
-            if (tel.trim()==''){
+            if (tel.trim() == '') {
                 layer.msg("请输入手机号!!");
             }
             $.ajax({
@@ -182,7 +182,7 @@
         //用户名检查
         $("#userUsername").blur(function () {
             let username = $("#userUsername").val();
-            if(username.trim()=='') return;
+            if (username.trim() == '') return;
             $.ajax({
                 url: "${pageContext.request.contextPath}/user/checkUsername.do",
                 dataType: "json",

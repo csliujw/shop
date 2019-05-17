@@ -22,17 +22,18 @@ import java.util.List;
  * 用户个人操作
  */
 public class UserOperateController {
+    //短信注册码
+    private static String code = "-1";
     @Autowired
     @Qualifier("userOperateService")//通过注解和bean配置的方式混合注入
     private UserOperateService service;
     @Autowired
     @Qualifier("userOrderService")
     private UserOrderService userOrderService;
-    //短信注册码
-    private static String code = "-1";
 
     /**
      * 查询未付款的
+     *
      * @param vo
      * @return
      */
@@ -45,6 +46,7 @@ public class UserOperateController {
 
     /**
      * 查询付款了的
+     *
      * @param vo
      * @return
      */
@@ -61,7 +63,7 @@ public class UserOperateController {
         User u = service.login(user);
         if (u != null && u.getUserId() != null && !"".equals(u.getUserId())) {
             request.getSession().setAttribute("userInfo", u);
-            System.err.println(u.getUserId()+"用户ID如前");
+            System.err.println(u.getUserId() + "用户ID如前");
             return "redirect:/products/index.do";
         }
         request.setAttribute("message", "用户名或密码错误!");

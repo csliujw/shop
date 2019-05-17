@@ -14,6 +14,7 @@ function update(str, urls) {
             function close() {
                 layer.closeAll();
             }
+
             setTimeout(close, 2000);
         },
         error: function () {
@@ -57,7 +58,7 @@ function deletes(array, urls) {
         data: {
             "ids": array
         },
-        url: "${pageContext.request.contextPath }/" +  urls,// url
+        url: "${pageContext.request.contextPath }/" + urls,// url
         success: function (json) {
             layer.open({
                 title: "操作信息",

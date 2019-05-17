@@ -92,11 +92,11 @@
             data: values,
             type: "POST",
             success: function (json) {
-                if(json.length<1){
+                if (json.length < 1) {
                     alert("没有商品啦~~")
                 }
-                let str="";
-                str = concatStr(json,str);
+                let str = "";
+                str = concatStr(json, str);
                 page = page + 1;
                 $appendDiv.append(str);
                 console.log(str);
@@ -107,8 +107,8 @@
     });
 
     function concatStr(json, str) {
-        for (let i=0;i<json.length;i++) {
-            str+=`<div class="col-md-2" style="height:250px">
+        for (let i = 0; i < json.length; i++) {
+            str += `<div class="col-md-2" style="height:250px">
             <a href="${pageContext.request.contextPath }/products/detail.do?productId=` + json[i].productId + `">
             <img src="/` + json[i].productImage + `" width='170' height='170' style="display: inline-block;">
             </a>
@@ -116,7 +116,7 @@
             <a href="${pageContext.request.contextPath }/products/detail.do?productId=` + json[i].productId + `" style='color: green'>` + json[i].productName + `</a>
             </p>
             <p>
-            <font color="#FF0000"><s>市场价：&yen;` + json[i].productMarketPrice +`</s></font><br>
+            <font color="#FF0000"><s>市场价：&yen;` + json[i].productMarketPrice + `</s></font><br>
             <font color="black">商城价：&yen;` + json[i].productShopPrice + `</font>
         </p>
         </div>`

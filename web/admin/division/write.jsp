@@ -19,7 +19,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品一级类别名称</label>
             <div class="layui-input-block">
-                <input type="text" name="divisionName" lay-verify="required|title" autocomplete="off" placeholder="请输入名称"
+                <input type="text" name="divisionName" lay-verify="required|title" autocomplete="off"
+                       placeholder="请输入名称"
                        class="layui-input">
             </div>
         </div>
@@ -64,7 +65,7 @@
                     url: "${pageContext.request.contextPath}/division/add.do",// url
                     success: function (json) {
                         layer.alert("操作成功", {
-                            title:json.message
+                            title: json.message
                         })
                     },
                     error: function (json) {

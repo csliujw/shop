@@ -104,6 +104,7 @@
                 function close() {
                     layer.closeAll();
                 }
+
                 setTimeout(close, 2000);
             },
             error: function () {
@@ -147,7 +148,7 @@
             data: {
                 "ids": array
             },
-            url: "${pageContext.request.contextPath }/" +  urls,// url
+            url: "${pageContext.request.contextPath }/" + urls,// url
             success: function (json) {
                 layer.open({
                     title: "操作信息",
@@ -162,6 +163,7 @@
             }
         });
     }
+
     layui.use(['table', 'form', 'layedit', 'laydate'], function () {
         var table = layui.table;
         var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
@@ -208,8 +210,8 @@
             var data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
-                    var str = {"subdivisionId": data.subdivisionId}
-                    deleteSingle(str,"subdivision/delete.do",obj);
+                    var str = {"subdivisionId": data.subdivisionId};
+                    deleteSingle(str, "subdivision/delete.do", obj);
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
@@ -225,7 +227,7 @@
                         //数据回显
                         $("#subdivisionName").val(data.subdivisionName);
                         $("#subdivisionId").val(data.subdivisionId);
-                        $("#divisionId").find("option:contains("+data.division.divisionName+")").attr("selected",true);
+                        $("#divisionId").find("option:contains(" + data.division.divisionName + ")").attr("selected", true);
                         form.render();
                     }
                 });
@@ -236,9 +238,9 @@
                     var str = {
                         "subdivisionName": $subdivisionName,
                         "subdivisionId": $subdivisionId,
-                        "divisionId":$divisionId
+                        "divisionId": $divisionId
                     };
-                    update(str,"subdivision/update.do");
+                    update(str, "subdivision/update.do");
                     event.preventDefault();
                 });
             }
@@ -258,7 +260,7 @@
                         array += data[i].subdivisionId;
                     }
                 }
-                deletes(array,"subdivision/deletes.do");
+                deletes(array, "subdivision/deletes.do");
                 //删除
             }
             , reload: function () {
@@ -266,8 +268,8 @@
                 var $searchDivisionId = $("#searchDivisionName").val();
                 table.reload('contentTable', {
                     where: {
-                        "subdivisionName":$searchSubdivisionName,
-                        "divisionId":$searchDivisionId
+                        "subdivisionName": $searchSubdivisionName,
+                        "divisionId": $searchDivisionId
                     }
                 });
                 form.render();

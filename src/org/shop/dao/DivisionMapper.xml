@@ -42,7 +42,7 @@
 
     <!-- 分页条件查询所有 -->
     <select id="selectAllPageConditionDivision" parameterType="org.shop.utils.Page"
-        resultType="org.shop.pojo.Division">
+            resultType="org.shop.pojo.Division">
         SELECT division_id,division_name
         FROM division
         WHERE division_or_delete=0

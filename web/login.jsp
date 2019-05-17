@@ -164,7 +164,7 @@
         let layer = layui.layer;
     });
 
-    $("#getCode").click(function(){
+    $("#getCode").click(function () {
         let tel = $("input[name='userTelephone']").val();
         if (tel == '') {
             layer.msg("请输入手机号码！");
@@ -173,12 +173,12 @@
         $.ajax({
             url: "${pageContext.request.contextPath}/user/code.do",
             dataType: "text",
-            data: "tel="+tel,
+            data: "tel=" + tel,
             type: "POST",
             success: function (json) {
-                if(json=="OK"){
+                if (json == "OK") {
                     layer.msg("验证码已发送请及时填写");
-                }else{
+                } else {
                     layer.msg("请检查手机号是否正确");
                 }
             },
