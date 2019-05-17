@@ -52,7 +52,7 @@
         <c:if test="${pro!=null}">
             <div class="col-md-2" style="height:250px">
                 <a href="${pageContext.request.contextPath }/products/detail.do?productId=${pro.productId}">
-                    <img src="${pageContext.request.contextPath }/${pro.productImage}" width="170" height="170"
+                    <img src="/${pro.productImage}" width="170" height="170"
                          style="display: inline-block;">
                 </a>
                 <p>

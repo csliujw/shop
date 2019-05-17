@@ -349,7 +349,6 @@
                         "userId": '${userInfo.userId}'
                     };
                     let urls = "${pageContext.request.contextPath}/user/updatePassword.do";
-                    layer.msg(urls);
                     update(urls, JSON.stringify(values));
                     event.preventDefault();
                     //执行修改密码的ajax操作
@@ -369,7 +368,6 @@
             };
             let urls = "${pageContext.request.contextPath}/user/updateAddress.do";
             update(urls, JSON.stringify(values));
-            layer.msg("下次购物时开始生效!");
             event.preventDefault();
         });
 

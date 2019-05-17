@@ -21,6 +21,7 @@
     <update id="deleteDivision" parameterType="org.shop.pojo.Division">
       UPDATE division SET division_or_delete=1
       WHERE division_id=#{divisionId}
+      and (select count(1) from subdivision where division_id = #{divisionId}) = 0
     </update>
 
     <!-- 批量删除 -->
@@ -30,6 +31,10 @@
         <foreach collection="ids" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>
+        and (select count(1) from subdivision where division_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>) = 0
     </update>
 
     <!-- 查询所有 -->

@@ -28,7 +28,13 @@
 </ul>
 <div style="margin-top: 30px;"></div>
 <div class="layui-form-item">
-    <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+    <div class="layui-col-lg12">
+        <label class="layui-form-label">删除操作</label>
+        <div class="layui-inline">
+            <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+        </div>
+    </div>
+    <hr/>
     <div class="layui-inline">
         <label class="layui-form-label">检索条件</label>
         <div class="layui-input-inline">
@@ -36,10 +42,12 @@
                    placeholder="用户真实姓名/昵称">
         </div>
         <label class="layui-form-label">是否注销</label>
-        <select name="is_delete" id="is_delete">
-            <option value="0">未注销</option>
-            <option value="0">已注销</option>
-        </select>
+        <div class="layui-input-inline">
+            <select name="is_delete" id="is_delete" class="layui-input">
+                <option value="0">未注销</option>
+                <option value="0">已注销</option>
+            </select>
+        </div>
     </div>
     <button class="layui-btn" data-type="reload">查询</button>
 </div>

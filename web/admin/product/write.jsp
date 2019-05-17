@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/css/layui.css" media="all">
     <script src="${pageContext.request.contextPath }/js/jquery-1.8.3.min.js"></script>
     <script src="${pageContext.request.contextPath }/layui.js" charset="utf-8"></script>
+    <script src="${pageContext.request.contextPath}/js/util/FormUtils.js"></script>
 </head>
 <body>
 <div style="margin-top: 30px;"></div>
@@ -157,23 +158,28 @@
                 values["productImage"] = imgUrl;
                 values["division"] = {"divisionId": $("select[name='divisionId']").val()};
                 values["subdivision"] = {"subdivisionId": $("select[name='subdivisionId']").val()};
-                $.ajax({
-                    type: "POST",// 方法类型
-                    dataType: "json",// 预期服务器返回的数据类型
-                    data: JSON.stringify(values),
-                    contentType: 'application/json;charset=utf-8',
-                    url: "${pageContext.request.contextPath}/product/add.do",// url
-                    success: function (json) {
-                        layer.alert(json.message, {
-                            title: "操作成功"
-                        })
-                    },
-                    error: function (json) {
-                        layer.alert(json.message, {
-                            title: "操作失败"
-                        })
-                    }
-                });
+                if (imgUrl == '') {
+                    layer.msg('请上传图片！');
+                } else {
+                    layer.msg(imgUrl);
+                    $.ajax({
+                        type: "POST",// 方法类型
+                        dataType: "json",// 预期服务器返回的数据类型
+                        data: JSON.stringify(values),
+                        contentType: 'application/json;charset=utf-8',
+                        url: "${pageContext.request.contextPath}/product/add.do",// url
+                        success: function (json) {
+                            layer.alert(json.message, {
+                                title: "操作成功"
+                            })
+                        },
+                        error: function (json) {
+                            layer.alert(json.message, {
+                                title: "操作失败"
+                            })
+                        }
+                    });
+                }
                 event.preventDefault();
             });
         });

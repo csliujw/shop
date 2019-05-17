@@ -23,37 +23,25 @@
 </ul>
 <div style="margin-top: 30px;"></div>
 <div class="layui-form-item">
-    <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+    <div class="layui-col-lg12">
+        <label class="layui-form-label">删除操作</label>
+        <div class="layui-inline">
+            <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+        </div>
+    </div>
+    <hr/>
     <div class="layui-inline">
         <label class="layui-form-label">检索条件</label>
         <div class="layui-input-inline">
             <input type="text" name="searchUserRealName" id="searchUserRealName" class="layui-input"
                    placeholder="购买人真实姓名">
         </div>
-        <label class="layui-form-label">一级类别</label>
-        <div class="layui-input-inline">
-            <select name="searchDivisionName" id="searchDivisionName" lay-filter="aihao" class="layui-input">
-                <option value="">---请选择---</option>
-                <c:forEach items="${division}" var="item" varStatus="s">
-                    <option value="${item.divisionId}">${item.divisionName}</option>
-                </c:forEach>
-            </select>
-        </div>
-        <label class="layui-form-label">二级类别</label>
-        <div class="layui-input-inline">
-            <select name="searchSubdivisionName" id="searchSubdivisionName" lay-filter="aihao" class="layui-input">
-                <option value='' selected='selected'>---请选择---</option>
-            </select>
-        </div>
+
         <label class="layui-form-label">商品名称</label>
         <div class="layui-input-inline">
             <select name="searchSubdivisionName" id="searchProductName" lay-filter="aihao" class="layui-input">
                 <option value='' selected='selected'>---请选择---</option>
             </select>
-        </div>
-        <label class="layui-form-label">购买时间段</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="buyTime" placeholder="">
         </div>
     </div>
     <button class="layui-btn" data-type="reload">查询</button>

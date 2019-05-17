@@ -28,7 +28,13 @@
 </ul>
 <div style="margin-top: 30px;"></div>
 <div class="layui-form-item">
-    <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+    <div class="layui-col-lg12">
+        <label class="layui-form-label">删除操作</label>
+        <div class="layui-inline">
+            <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+        </div>
+    </div>
+    <hr/>
     <div class="layui-inline">
         <label class="layui-form-label">检索条件</label>
         <div class="layui-input-inline">
@@ -326,7 +332,7 @@
                     title: '商品图片',
                     width: 120,
                     fixed: 'left',
-                    templet: '<div><img src="${pageContext.request.contextPath}/{{ d.productImage }}"></div>'
+                    templet: '<div><img src="/{{ d.productImage }}"></div>'
                 }
                 , {field: 'productDate', title: '入库日期', width: 120, fixed: 'left'}
                 , {
@@ -381,7 +387,7 @@
                         if (imgUrl == '') {
                             imgUrl = data.productImage;
                         }
-                        $("#productImage").attr("src", "<%=request.getContextPath()%>/" + data.productImage);
+                        $("#productImage").attr("src", "/" + data.productImage);
                         //二级联动
                         form.on('select(selectDivisionId)', function (data) {
                             selectOption();

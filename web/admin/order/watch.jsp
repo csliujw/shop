@@ -80,7 +80,10 @@
                     title: "操作信息",
                     content: json.message
                 });
-                obj.del();
+                if (json.message.indexOf('成功') != -1) {
+                    layer.msg(json.message.indexOf('成功'));
+                    obj.del();
+                }
             },
             error: function () {
                 layer.open({
@@ -103,7 +106,7 @@
             success: function (json) {
                 layer.open({
                     title: "操作信息",
-                    content: "删除成功,请刷新" //这里content是一个普通的String
+                    content: json.message //这里content是一个普通的String
                 });
             },
             error: function () {

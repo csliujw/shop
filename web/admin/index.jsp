@@ -66,10 +66,10 @@
                     <a href="javascript:">商品信息管理</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:" class="add_product">新增商品信息</a>
+                            <a href="javascript:" class="add_product">新增商品</a>
                         </dd>
                         <dd>
-                            <a href="javascript:" class="query_product">查询图书信息</a>
+                            <a href="javascript:" class="query_product">查询商品信息</a>
                         </dd>
                     </dl>
                 </li>

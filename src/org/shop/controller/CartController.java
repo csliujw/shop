@@ -33,6 +33,17 @@ public class CartController {
     @RequestMapping("add.do")
     @ResponseBody
     public String addCart(@RequestBody CartItem item, HttpSession session) {
+        try {
+            if (item != null) {
+                int intStr = item.getBuyNum();
+                if (intStr < 0 || intStr - Math.floor(intStr) > 0.0000000001) {
+                    return "{\"code\":\"Default\"}";
+                }
+            }
+        } catch (Exception e) {
+            return "{\"code\":\"Default\"}";
+        }
+
         User user = (User) session.getAttribute("userInfo");
         item.setUserId(user.getUserId());
         item.setOrderItemId(UUID.randomUUID().toString());

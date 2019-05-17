@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>会员登录</title>
+    <title>商品详情</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" type="text/css"/>
     <script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.min.js" type="text/javascript"></script>
@@ -41,7 +41,7 @@
             <div class="col-md-6">
                 <img style="opacity: 1; width: 400px; height: 350px;" title=""
                      class="medium"
-                     src="${pageContext.request.contextPath }/${productDetail.productImage}">
+                     src="/${productDetail.productImage}">
             </div>
 
             <div class="col-md-6">
@@ -86,7 +86,7 @@
             </div>
 
             <div>
-                <img src="${pageContext.request.contextPath }/${productDetail.productImage}">
+                <img src="/${productDetail.productImage}">
             </div>
 
             <div
@@ -122,34 +122,42 @@
 </body>
 <script src="${pageContext.request.contextPath}/layui.js"></script>
 <script>
-    layui.use(['form', 'layer'], function () {
+    layui.use(['form', 'layer'], function (event) {
         let layer = layui.layer;
-
+        let buyNum = 0;
         //添加商品信息至session中
         $("#addCartItem").click(function () {
-            let values = {
-                "product": {
-                    "productName": "${productDetail.productName}",
-                    "productId": "${productDetail.productId}",
-                },
-                "userId": "${userInfo.userId}",
-                "buyNum": $("#buyNum").val(),
-            };
-            console.log(JSON.stringify(values));
-            $.ajax({
-                type: "post",
-                contentType: "application/json",
-                url: "${pageContext.request.contextPath}/cart/add.do",
-                dataType: "json",
-                data: JSON.stringify(values),
-                success: function (json) {
-                    if (json.code == "OK") {
-                        layer.msg("添加成功");
-                    } else {
-                        layer.msg("添加失败");
+            buyNum = $("#buyNum").val();
+            if (buyNum <= 0) {
+                layer.msg("请输入大于0的整数!");
+            } else if (isNaN(buyNum)) {
+                layer.msg("请输入数字!");
+            } else if (buyNum / 1 != parseInt(buyNum)) {
+                layer.msg("请输入整数!");
+            } else {
+                let values = {
+                    "product": {
+                        "productName": "${productDetail.productName}",
+                        "productId": "${productDetail.productId}",
+                    },
+                    "userId": "${userInfo.userId}",
+                    "buyNum": parseInt(buyNum),
+                };
+                $.ajax({
+                    type: "post",
+                    contentType: "application/json",
+                    url: "${pageContext.request.contextPath}/cart/add.do",
+                    dataType: "json",
+                    data: JSON.stringify(values),
+                    success: function (json) {
+                        if (json.code == "OK") {
+                            layer.msg("添加成功");
+                        } else {
+                            layer.msg("添加失败");
+                        }
                     }
-                }
-            });
+                });
+            }
         });
     });
 

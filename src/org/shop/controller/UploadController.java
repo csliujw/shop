@@ -24,13 +24,13 @@ public class UploadController {
     public JSONImage upload(@RequestParam("file") MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString().replaceAll("-", "_");
         String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-        String storePath = "E:\\Eclipse_javaee_workspace\\shop\\web\\products\\" + fileName + "." + ext;
+        String storePath = "E:/upload/" + fileName + "." + ext;
         JSONImage img = new JSONImage();
         file.transferTo(new File(storePath));
         img.setCode("0");
         img.setMsg("");
         Image image = new Image();
-        image.setSrc("products/" + fileName + "." + ext);
+        image.setSrc("upload/" + fileName + "." + ext);
         ArrayList<Image> list = new ArrayList<>();
         list.add(image);
         img.setData(list);

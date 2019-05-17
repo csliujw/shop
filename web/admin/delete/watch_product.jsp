@@ -28,7 +28,13 @@
 </ul>
 <div style="margin-top: 30px;"></div>
 <div class="layui-form-item">
-    <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+    <div class="layui-col-lg12">
+        <label class="layui-form-label">删除操作</label>
+        <div class="layui-inline">
+            <button class="layui-btn" data-type="getCheckData">批量刪除</button>
+        </div>
+    </div>
+    <hr/>
     <div class="layui-inline">
         <label class="layui-form-label">检索条件</label>
         <div class="layui-input-inline">

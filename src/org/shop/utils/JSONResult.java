@@ -10,10 +10,10 @@ public class JSONResult {
     }
 
     public static String delete(boolean condition) {
-        return condition ? "{\"message\":\"删除成功\"}" : "{\"message\":\"删除失败\"}";
+        return condition ? "{\"message\":\"删除成功\"}" : "{\"message\":\"删除失败,请确认所选类别无二级子类！\"}";
     }
 
     public static String deletes(boolean condition) {
-        return condition ? "{\"message\":\"全部删除成功\"}" : "{\"message\":\"部分删除失败\"}";
+        return condition ? "{\"message\":\"全部删除成功\"}" : "{\"message\":\"部分删除失败，请确认所选类别无二级子类！\"}";
     }
 }
