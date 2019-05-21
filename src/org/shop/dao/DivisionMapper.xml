@@ -21,7 +21,7 @@
     <update id="deleteDivision" parameterType="org.shop.pojo.Division">
       UPDATE division SET division_or_delete=1
       WHERE division_id=#{divisionId}
-      and (select count(1) from subdivision where division_id = #{divisionId}) = 0
+      and (select count(1) from subdivision where division_id = #{divisionId} and subdivision_or_delete = 0) = 0
     </update>
 
     <!-- 批量删除 -->

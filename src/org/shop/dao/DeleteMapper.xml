@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.DeleteMapper">
+    <!--
+     //商品一级类别
+        public List<Division> divisionList(Page<Division> page);
+
+        public boolean divisionDelete(Division div);
+
+        public int divisionDeleteBatch(DeleteVO vo);
+    -->
+    <!-- 删除 -->
+    <delete id="divisionDelete" parameterType="org.shop.pojo.Division">
+      delete from  division
+      WHERE division_id=#{divisionId}
+      and (select count(1) from subdivision where division_id = #{divisionId} and subdivision_or_delete= 1) = 0
+    </delete>
+
+    <!-- 批量删除 -->
+    <update id="divisionDeleteBatch" parameterType="DeleteVO">
+        UPDATE division SET division_or_delete=1
+        WHERE division_id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+        and (select count(1) from subdivision where division_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>) = 0
+    </update>
+
+    <!-- 查询所有 -->
+    <select id="divisionAll" resultType="long" parameterType="org.shop.pojo.Division">
+        SELECT count(1)
+        FROM division
+        WHERE division_or_delete=0
+        <if test="divisionName!=null and divisionName!=''">AND division_name like CONCAT("%",#{divisionName},"%")</if>
+    </select>
+
+    <!-- 分页条件查询所有 -->
+    <select id="divisionList" parameterType="org.shop.utils.Page"
+            resultType="org.shop.pojo.Division">
+        SELECT division_id,division_name
+        FROM division
+        WHERE division_or_delete=0
+        <if test="condition!=null and condition.divisionName!=null and condition.divisionName!=''">
+            and division_name like concat("%",#{condition.divisionName},"%")
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+
+    <!--
+    //商品二级类别
+    public List<Subdivision> subdivisionList(Page<Subdivision> page);
+
+    public boolean subdivisionDelete(Subdivision sub);
+    long subdivisionAll(Subdivision subdivision);
+    public int subdivisionDeleteBatch(DeleteVO vo);
+    -->
+    <!--删除-->
+    <update id="subdivisionDelete" parameterType="Subdivision">
+      update subdivision
+      set subdivision_or_delete = '1'
+      where subdivision_id=#{subdivisionId}
+    </update>
+
+    <!--批量删除-->
+    <update id="subdivisionDeleteBatch" parameterType="DeleteVO">
+        update subdivision
+        set subdivision_or_delete = '1'
+        where subdivision_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <resultMap id="subdivision" type="Subdivision">
+        <id property="subdivisionId" column="subdivision_id"></id>
+        <result property="subdivisionName" column="subdivision_name"></result>
+        <association property="division" column="division_id" javaType="Division">
+            <id property="divisionId" column="division_id"></id>
+            <result property="divisionName" column="division_name"></result>
+        </association>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="subdivisionAll" parameterType="Subdivision" resultType="long">
+        select count(subdivision.subdivision_id) from subdivision,division
+        where subdivision_or_delete=0
+        and subdivision.division_id = division.division_id
+        <if test="subdivisionName!=null and subdivisionName!=''">
+            and subdivision_name like concat("%",#{subdivisionName},"%")
+        </if>
+        <!-- 按所属一级类别查询 -->
+        <if test="division!=null and division.divisionId!=null and division.divisionId!=''">
+            and division.division_id = #{division.divisionId}
+        </if>
+    </select>
+
+    <!--分页条件查询-->
+    <select id="subdivisionList" parameterType="org.shop.utils.Page" resultMap="subdivision">
+        select
+        subdivision.subdivision_name,
+        subdivision.subdivision_id,
+        division.division_id,
+        division.division_name
+        from subdivision,division
+        where subdivision_or_delete=0
+        and subdivision.division_id = division.division_id
+        <if test="condition!=null and condition.subdivisionName!=null and condition.subdivisionName!=''">
+            and subdivision_name like concat("%",#{condition.subdivisionName},"%")
+        </if>
+        <!-- 按一级类别查询 -->
+        <if test="condition!=null and condition.division!=null and condition.division.divisionId!=null and condition.division.divisionId!=''">
+            and division.division_id = #{condition.division.divisionId}
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <!--
+    //商品信息
+    public List<Product> productList();
+
+    public boolean productDelete();
+
+    public int productDeleteBatch(DeleteVO vo);
+
+    public long productAll(Product);
+    -->
+    <!--删除-->
+    <update id="productDelete" parameterType="Product">
+        update product set product_or_delete = 1
+        where product_id = #{productId}
+    </update>
+
+    <!--批量删除-->
+    <update id="productDeleteBatch" parameterType="DeleteVO">
+        update product set product_or_delete = 1
+        where product_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--查询所有-->
+    <select id="productAll" parameterType="Product" resultType="long">
+        select count(1)
+        from product,division,subdivision
+        where product.division_id = division.division_id
+        and product.subdivision_id = subdivision.subdivision_id
+        and product_or_delete = 0
+        <if test="productName!=null and productName!=''">
+            and product_name like concat("%",#{productName},"%")
+        </if>
+        <if test="productOrHot!=null and productOrHot!=''">
+            and product_or_hot = #{productOrHot}
+        </if>
+        <if test="division!=null and division.divisionId!=null and division.divisionId!=''">
+            and product.division_id = #{division.divisionId}
+        </if>
+        <if test="subdivision!=null and subdivision.subdivisionId!=null and subdivision.subdivisionId!=''">
+            and product.subdivision_id = #{subdivision.subdivisionId}
+        </if>
+    </select>
+    <resultMap id="selectAll" type="Product">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productDate" column="product_date"/>
+        <result property="productDetail" column="product_detail"/>
+        <result property="productImage" column="product_image"/>
+        <result property="productMarketPrice" column="product_market_price"/>
+        <result property="productShopPrice" column="product_shop_price"/>
+        <result property="productOrHot" column="product_or_hot"/>
+        <result property="productOrDelete" column="product_or_delete"/>
+        <association property="division" javaType="Division">
+            <id property="divisionId" column="division_id"/>
+            <result property="divisionName" column="division_name"/>
+        </association>
+        <association property="subdivision" javaType="Subdivision">
+            <id property="subdivisionId" column="subdivision_id"/>
+            <result property="subdivisionName" column="subdivision_name"/>
+        </association>
+    </resultMap>
+    <!--分页条件查询-->
+    <select id="productList" parameterType="org.shop.utils.Page" resultMap="selectAll">
+        select product.*,division.*,subdivision.*
+        from product,division,subdivision
+        where product.division_id = division.division_id and product.subdivision_id = subdivision.subdivision_id
+        and product_or_delete = 0
+        <if test="condition!=null and condition.productName!=null and condition.productName!=''">
+            and product_name like concat("%",#{condition.productName},"%")
+        </if>
+        <if test="condition!=null and condition.productOrHot!=null and condition.productOrHot!=''">
+            and product_or_hot = #{condition.productOrHot}
+        </if>
+        <if test="condition!=null and condition.division!=null and condition.division.divisionId!=null and condition.division.divisionId!=''">
+            and product.division_id = #{condition.division.divisionId}
+        </if>
+        <if test="condition!=null and condition.subdivision!=null and condition.subdivision.subdivisionId!=null and condition.subdivision.subdivisionId!=''">
+            and product.subdivision_id = #{condition.subdivision.subdivisionId}
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <!--
+    //订单信息
+    public List<Order> orderList();
+
+    public boolean orderDelete();
+
+    public int orderDeleteBatch(DeleteVO vo);
+    -->
+
+
+    <!--
+    //物流信息
+    public List<Orders> ordersList();
+
+    public boolean ordersDelete();
+
+    public int ordersDeleteBatch(DeleteVO vo);
+    -->
+</mapper>
