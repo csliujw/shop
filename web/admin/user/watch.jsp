@@ -50,7 +50,6 @@
     {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
@@ -69,11 +68,9 @@
                     title: "操作信息",
                     content: json.message //这里content是一个普通的String
                 });
-
                 function close() {
                     layer.closeAll();
                 }
-
                 setTimeout(close, 2000);
             },
             error: function () {
@@ -124,7 +121,7 @@
             success: function (json) {
                 layer.open({
                     title: "操作信息",
-                    content: "删除成功,请刷新" //这里content是一个普通的String
+                    content: json.message //这里content是一个普通的String
                 });
             },
             error: function () {
@@ -172,7 +169,7 @@
                     templet: '<div>{{d.userState==1?"激活":"已注销"}}</div>'
                 }
                 , {field: 'userAddress', title: '住址', width: 250, fixed: 'left'}
-                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}
+                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}
             ]]
         });
         //监听工具条
