@@ -32,5 +32,5 @@ public interface DivisionMapper {
     Division selectSingle(Division division);
 
     //查询所有信息
-    List<Division> selectAllDetail();
+    List<Division> selectAllDetail(boolean orDelete);
 }

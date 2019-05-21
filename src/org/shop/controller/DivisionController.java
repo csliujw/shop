@@ -29,11 +29,17 @@ public class DivisionController {
      */
     @RequestMapping("index.do")
     public String index(HttpSession session) {
-        List<Division> divisions = divisionServiceImpl.selectAllDetail();
-        session.setAttribute("division", divisions);
+        //查询未被标记为删除的
+        List<Division> divisionUnDelete = divisionServiceImpl.selectAllDetail(false);
+        //查询被标记为删除的
+        List<Division> divisionDelete = divisionServiceImpl.selectAllDetail(true);
+        session.setAttribute("division", divisionUnDelete);
+        session.setAttribute("divisionDelete", divisionDelete);
         Gson gson = new Gson();
-        String s = gson.toJson(divisions);
-        session.setAttribute("s", s);
+        String s1 = gson.toJson(divisionUnDelete);
+        String s2 = gson.toJson(divisionDelete);
+        session.setAttribute("s", s1);
+        session.setAttribute("ss", s2);
         return "index";
     }
 

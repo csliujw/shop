@@ -69,7 +69,7 @@ public class UserServiceImpl implements IBaseService<User> {
     }
 
     @Override
-    public List<User> selectAllDetail() {
+    public List<User> selectAllDetail(boolean orDelete) {
         return null;
     }
 }

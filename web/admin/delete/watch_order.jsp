@@ -45,7 +45,7 @@
         <div class="layui-input-inline">
             <select name="searchDivisionName" id="searchDivisionName" class="layui-input">
                 <option value="">---请选择---</option>
-                <c:forEach items="${division}" var="item" varStatus="s">
+                <c:forEach items="${divisionDelete}" var="item" varStatus="s">
                     <option value="${item.divisionId}">${item.divisionName}</option>
                 </c:forEach>
             </select>
@@ -120,7 +120,7 @@
     //修改表单的二级联动初始数据
     function selectOption() {
         let divisionValue = $("select[name='divisionId']").val();
-        let str = JSON.parse('${s}');
+        let str = JSON.parse('${ss}');
         let temp;
         for (let i = 0; i < str.length; i++) {
             if (str[i].divisionId == divisionValue) {
@@ -239,7 +239,7 @@
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
                     let str = {"orderItemId": data.orderItemId};
-                    deleteSingle(str, "order/delete.do", obj);
+                    deleteSingle(str, "phy/orderDelete.do", obj);
                     layer.close(index);
                 });
             }
@@ -260,7 +260,7 @@
                     }
                 }
                 //批量删除
-                deletes(array, "order/deletes.do");
+                deletes(array, "phy/orderDeleteBatch.do");
             }
             , reload: function () {
                 /**

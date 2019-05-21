@@ -62,7 +62,7 @@ public class OrderItemServiceImpl implements IBaseService<OrderItem> {
     }
 
     @Override
-    public List<OrderItem> selectAllDetail() {
+    public List<OrderItem> selectAllDetail(boolean orDelete) {
         return null;
     }
 }

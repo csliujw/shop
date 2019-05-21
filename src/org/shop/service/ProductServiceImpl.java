@@ -72,7 +72,7 @@ public class ProductServiceImpl implements IBaseService<Product> {
     }
 
     @Override
-    public List<Product> selectAllDetail() {
+    public List<Product> selectAllDetail(boolean orDelete) {
         return null;
     }
 }

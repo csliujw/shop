@@ -69,7 +69,7 @@ public class SubdivisionServiceImpl implements IBaseService<Subdivision> {
     }
 
     @Override
-    public List<Subdivision> selectAllDetail() {
+    public List<Subdivision> selectAllDetail(boolean orDelete) {
         return null;
     }
 }

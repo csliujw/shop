@@ -123,7 +123,7 @@
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
                     let str = {"divisionId": data.divisionId};
-                    //deleteSingle(str, "division/delete.do", obj);
+                    deleteSingle(str, "phy/divisionDelete.do", obj);
                     layer.close(index);
                 });
             }
@@ -142,7 +142,7 @@
                         array += data[i].divisionId;
                     }
                 }
-                //deletes(array, "division/deletes.do");
+                deletes(array, "phy/divisionDeleteBatch.do");
             }
             , reload: function () {
                 let $searchDivisionName = $("#searchDivisionName").val();

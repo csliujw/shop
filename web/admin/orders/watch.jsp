@@ -31,17 +31,15 @@
     </div>
     <hr/>
     <div class="layui-inline">
-        <label class="layui-form-label">检索条件</label>
+        <label class="layui-form-label">用户姓名</label>
         <div class="layui-input-inline">
             <input type="text" name="searchUserRealName" id="searchUserRealName" class="layui-input"
-                   placeholder="购买人真实姓名">
+                   placeholder="请输入购买人真实姓名">
         </div>
 
         <label class="layui-form-label">商品名称</label>
         <div class="layui-input-inline">
-            <select name="searchSubdivisionName" id="searchProductName" lay-filter="aihao" class="layui-input">
-                <option value='' selected='selected'>---请选择---</option>
-            </select>
+            <input name="searchProductName" id="searchProductName" class="layui-input" placeholder="请输入商品名称">
         </div>
     </div>
     <button class="layui-btn" data-type="reload">查询</button>
@@ -305,15 +303,11 @@
                  * searchProductName searchProductOrHot searchDivisionName searchSubdivisionName
                  * */
                 let $productName = $("#searchProductName").val();
-                let $productOrHot = $("#searchProductOrHot").val();
-                let $divisionName = $("#searchDivisionName").val();//其实获取的是select中option的val~~
-                let $subdivisionName = $("#searchSubdivisionName").val();
+                let $userRealName = $("#searchUserRealName").val();
                 table.reload('contentTable', {
                     where: {
                         "productName": $productName,
-                        "productOrHot": $productOrHot,
-                        "divisionId": $divisionName,
-                        "subdivisionId": $subdivisionName
+                        "userRealName": $userRealName,
                     }
                 });
                 form.render();

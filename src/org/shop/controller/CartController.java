@@ -212,5 +212,4 @@ public class CartController {
         session.setAttribute("currentOrderItemList", list);
         return "forward:/order_info.jsp";
     }
-
 }

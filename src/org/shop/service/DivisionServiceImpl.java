@@ -26,8 +26,8 @@ public class DivisionServiceImpl implements IBaseService<Division> {
      * @return
      */
     @Override
-    public List<Division> selectAllDetail() {
-        List<Division> list = divisionMapper.selectAllDetail();
+    public List<Division> selectAllDetail(boolean orDelete) {
+        List<Division> list = divisionMapper.selectAllDetail(orDelete);
         return list;
     }
 

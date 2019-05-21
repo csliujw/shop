@@ -11,8 +11,8 @@
         where orders.`orders_id` = order_item.`orders_id`
         and order_item.`product_id` = product.`product_id`
         and orders_or_delete=0
-        <if test="condition!=null and condition.userUsername!=null and condition.userUsername!=''">
-            and orders.user_username like concat("%",#{condition.userUsername},"%")
+        <if test="condition!=null and condition.userRealName!=null and condition.userRealName!=''">
+            and orders.user_real_name like concat("%",#{condition.userRealName},"%")
         </if>
         <if test="condition.productName!=null and condition.productName!=''">
             and product.product_name like concat("%",#{condition.productName},"%")
@@ -26,8 +26,8 @@
         where orders.`orders_id` = order_item.`orders_id`
         and order_item.`product_id` = product.`product_id`
         and orders_or_delete=0
-        <if test="userUsername!=null and userUsername!=''">
-            and orders.user_username like concat("%",#{userUsername},"%")
+        <if test="userRealName!=null and userRealName!=''">
+            and orders.user_real_name like concat("%",#{userRealName},"%")
         </if>
         <if test="productName!=null and productName!=''">
             and product.product_name like concat("%",#{productName},"%")

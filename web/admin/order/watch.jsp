@@ -229,7 +229,7 @@
                     width: 120,
                     templet: '<div>{{d.subdivision.subdivisionName}}</div>'
                 }
-                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
 

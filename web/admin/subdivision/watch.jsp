@@ -199,7 +199,7 @@
                     unresize: true,
                     templet: '<div>{{d.division.divisionName}}</div>'
                 }
-                , {fixed: 'right', width: 178, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 120, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
 

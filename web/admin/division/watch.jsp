@@ -172,7 +172,7 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'autoIncrement', width: 80, title: '排名', fixed: 'left', templet: '#autoIncrement'}
                 , {field: 'divisionName', title: '商品一级类别名称', width: 200, fixed: 'left', unresize: true}
-                , {fixed: 'right', width: 178, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 120, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
 

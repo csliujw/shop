@@ -80,9 +80,17 @@
             <result property="subdivisionName" column="subdivision_name"/>
         </collection>
     </resultMap>
-    <select id="selectAllDetail" resultMap="selectAll">
+    <select id="selectAllDetail" resultMap="selectAll" parameterType="boolean">
         select division.*,subdivision.* from division,subdivision
-        where division_or_delete = 0
+        where
+        <if test="_parameter==true">
+            division_or_delete = 1
+            and subdivision_or_delete = 1
+        </if>
+        <if test="_parameter==false">
+            division_or_delete = 0
+            and subdivision_or_delete = 0
+        </if>
         and subdivision.division_id = division.division_id
     </select>
 </mapper>

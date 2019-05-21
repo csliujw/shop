@@ -339,19 +339,19 @@
                 , {
                     field: 'productOrHot',
                     title: '热门',
-                    width: 60,
+                    width: 80,
                     fixed: 'left',
                     templet: '<div>{{d.productOrHot==1?"热门":"不热门"}}</div>'
                 }
-                , {field: 'productDetail', title: '详情', width: 160, fixed: 'left'}
-                , {field: 'divisionName', title: '一级类别', width: 120, templet: '<div>{{d.division.divisionName}}</div>'}
+                , {field: 'productDetail', title: '详情', width: 200, fixed: 'left'}
+                , {field: 'divisionName', title: '一级类别', width: 200, templet: '<div>{{d.division.divisionName}}</div>'}
                 , {
                     field: 'subdivisionName',
                     title: '二级类别',
-                    width: 120,
+                    width: 200,
                     templet: '<div>{{d.subdivision.subdivisionName}}</div>'
                 }
-                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 120, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
 

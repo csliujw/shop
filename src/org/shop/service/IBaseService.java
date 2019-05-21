@@ -31,5 +31,6 @@ public interface IBaseService<T> {
     //查询单条数据信息
     String selectSingle(T t);
 
-    List<T> selectAllDetail();
+    //查询何种类别的数据 true被标记为删除的 false未被标记未删除的
+    List<T> selectAllDetail(boolean orDelete);
 }

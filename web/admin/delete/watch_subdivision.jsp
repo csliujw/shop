@@ -36,7 +36,7 @@
         <div class="layui-input-inline">
             <select name="searchDivisionName" id="searchDivisionName" lay-filter="aihao" class="layui-input">
                 <option value="">---请选择---</option>
-                <c:forEach items="${division}" var="item" varStatus="s">
+                <c:forEach items="${divisionDelete}" var="item" varStatus="s">
                     <option value="${item.divisionId}">${item.divisionName}</option>
                 </c:forEach>
             </select>
@@ -45,44 +45,6 @@
     <button class="layui-btn" data-type="reload">查询</button>
 </div>
 
-<!-- 隐藏的表单 -->
-<div class="layui-row" id="updateSubdivisionForm" style="display: none;">
-    <br><br>
-    <div class="layui-col-md10">
-        <form class="layui-form">
-            <div class="layui-tab-item layui-show">
-                <input type="text" hidden="none" id="subdivisionId" name="subdivisionId">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">名称</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="subdivisionName" id="subdivisionName"
-                               lay-verify="required" autocomplete="off" placeholder="请输入名称"
-                               class="layui-input">
-                    </div>
-                </div>
-                <br>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">所属类别</label>
-                    <div class="layui-input-block">
-                        <select name="divisionId" id="divisionId" lay-filter="aihao" class="layui-input">
-                            <option value="">---请选择---</option>
-                            <c:forEach items="${division}" var="item" varStatus="s">
-                                <option value="${item.divisionId}">${item.divisionName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="updateSubdivision" lay-filter="updateSubdivision"
-                                id="updateSubdivision">立即提交
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 <table id="subdivision" lay-filter="subdivision"></table>
 <script type="text/html" id="autoIncrement">
     {{d.LAY_TABLE_INDEX+1}}
@@ -176,7 +138,7 @@
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
                     let str = {"subdivisionId": data.subdivisionId};
-                    deleteSingle(str, "subdivision/delete.do", obj);
+                    deleteSingle(str, "phy/subdivisionDelete.do", obj);
                     layer.close(index);
                 });
             }
@@ -196,7 +158,7 @@
                         array += data[i].subdivisionId;
                     }
                 }
-                deletes(array, "subdivision/deletes.do");
+                deletes(array, "phy/subdivisionDeleteBatch.do");
             }
             , reload: function () {
                 let $searchSubdivisionName = $("#searchSubdivisionName").val();

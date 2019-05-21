@@ -31,7 +31,7 @@
     </div>
     <hr/>
     <div class="layui-inline">
-        <label class="layui-form-label">检索条件</label>
+        <label class="layui-form-label">用户姓名</label>
         <div class="layui-input-inline">
             <input type="text" name="searchUserRealName" id="searchUserRealName" class="layui-input"
                    placeholder="购买人真实姓名">
@@ -39,78 +39,13 @@
 
         <label class="layui-form-label">商品名称</label>
         <div class="layui-input-inline">
-            <select name="searchSubdivisionName" id="searchProductName" lay-filter="aihao" class="layui-input">
-                <option value='' selected='selected'>---请选择---</option>
-            </select>
+            <input name="searchProductName" id="searchProductName" class="layui-input">
         </div>
     </div>
     <button class="layui-btn" data-type="reload">查询</button>
 </div>
 
 <table id="logistics" lay-filter="logistics"></table>
-<!--
-    修改物流信息
-    显示 商品名称
-    总价
-    收货人姓名
-    收货人地址
-    联系电话
-    物流信息  修改项
-    提示，同一快递的一起更新
--->
-<!-- 隐藏的表单 -->
-<div class="layui-row" id="updateOrdersForm" style="display: none;">
-    <br/>
-    <div class="layui-col-md10">
-        <form class="layui-form">
-            <input type="text" style="display: none" id="ordersId">
-            <div class="layui-form-item">
-                <input type="text" hidden="none" id="productId" name="productId">
-                <label class="layui-form-label">商品名称</label>
-                <div class="layui-input-block">
-                    <input type="text" id="productName" lay-verify="required|title" class="layui-input"
-                           disabled="disabled">
-                </div>
-                <br>
-                <label class="layui-form-label">订单总价</label>
-                <div class="layui-input-block">
-                    <input type="text" id="ordersTotal" class="layui-input" disabled="disabled">
-                </div>
-                <br>
-                <label class="layui-form-label">收货人姓名</label>
-                <div class="layui-input-block">
-                    <input type="text" id="userRealName" class="layui-input" disabled="disabled">
-                </div>
-                <br/>
-                <label class="layui-form-label">收货人电话</label>
-                <div class="layui-input-block">
-                    <input type="text" id="userTelephone" class="layui-input" disabled="disabled">
-                </div>
-                <br>
-                <label class="layui-form-label">收货人地址</label>
-                <div class="layui-input-block">
-                    <input type="text" id="userAddress" class="layui-input" disabled="disabled">
-                </div>
-                <br>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">物流信息</label>
-                    <div class="layui-input-block">
-                        <textarea name="ordersLogistics" id="ordersLogistics" lay-verify="required"
-                                  class="layui-textarea"></textarea>
-                    </div>
-                </div>
-                <br>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="updateOrders" lay-filter="updateOrders" id="updateOrders">
-                            立即提交
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 
 <script type="text/html" id="autoIncrement">
     {{d.LAY_TABLE_INDEX+1}}
@@ -243,43 +178,8 @@
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
                     let str = {"ordersId": data.ordersId};
-                    deleteSingle(str, "orders/delete.do", obj);
+                    deleteSingle(str, "phy/ordersDelete.do", obj);
                     layer.close(index);
-                });
-            } else if (obj.event === 'arrive') {
-                //確認收貨
-                layer.confirm('确认未经用户允确认收货吗?', function (index) {
-                    let str = {"ordersId": data.ordersId};
-                    update(JSON.stringify(str), "orders/arrive.do");
-                    layer.close(index);
-                });
-            } else if (obj.event === 'edit') {
-                layer.open({
-                    type: 1,
-                    title: "修改物流信息 ",
-                    area: ['600px', '525px'],
-                    content: $("#updateOrdersForm"),//引用的弹出层的页面层的方式加载修改界面表单
-                    success: function (layero, index) {
-                        //数据回显
-                        $("#productName").val(data.productName);
-                        $("#ordersTotal").val(data.ordersTotal);
-                        $("#userRealName").val(data.userRealName);
-                        $("#ordersLogistics").val(data.ordersLogistics);
-                        $("#userTelephone").val(data.userTelephone);
-                        $("#userAddress").val(data.userAddress);
-                        $("#ordersId").val(data.ordersId);
-                    }
-                });
-                form.on('submit(updateOrders)', function (data) {
-                    //获得数据
-                    let $ordersLogistics = $("#ordersLogistics").val();
-                    let $ordersId = $("#ordersId").val();
-                    let jsonStr = {
-                        "ordersLogistics": $ordersLogistics,
-                        "ordersId": $ordersId
-                    };
-                    update(JSON.stringify(jsonStr), "orders/update.do");
-                    event.preventDefault();
                 });
             }
         });
@@ -296,24 +196,19 @@
                         array += data[i].ordersId;
                     }
                 }
-                console.log(array + "我时批量删除");
                 //批量删除
-                deletes(array, "orders/deletes.do");
+                deletes(array, "phy/ordersDeleteBatch.do");
             }
             , reload: function () {
                 /**
                  * searchProductName searchProductOrHot searchDivisionName searchSubdivisionName
                  * */
                 let $productName = $("#searchProductName").val();
-                let $productOrHot = $("#searchProductOrHot").val();
-                let $divisionName = $("#searchDivisionName").val();//其实获取的是select中option的val~~
-                let $subdivisionName = $("#searchSubdivisionName").val();
+                let $userRealName = $("#searchUserRealName").val();
                 table.reload('contentTable', {
                     where: {
                         "productName": $productName,
-                        "productOrHot": $productOrHot,
-                        "divisionId": $divisionName,
-                        "subdivisionId": $subdivisionName
+                        "userRealName": $userRealName,
                     }
                 });
                 form.render();
