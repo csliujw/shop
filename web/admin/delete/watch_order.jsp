@@ -19,7 +19,7 @@
 <!-- 操作框 -->
 <div style="margin-bottom: 10px;"></div>
 <ul class="layui-tab-title main-tab-title">
-    <li class="layui-this">查看商品信息</li>
+    <li class="layui-this">查看订单信息</li>
 </ul>
 <div style="margin-top: 30px;"></div>
 <div class="layui-form-item">
@@ -164,7 +164,7 @@
         table.render({
             elem: '#order'  //绑定table表格  为了找到给那个表格插入数据<table></table>
             , height: 700
-            , url: '<%=request.getContextPath()%>/order/list.do'
+            , url: '<%=request.getContextPath()%>/phy/orderList.do'
             , page: true
             , response: {
                 statusName: 'code'
@@ -229,7 +229,7 @@
                     width: 120,
                     templet: '<div>{{d.subdivision.subdivisionName}}</div>'
                 }
-                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
 

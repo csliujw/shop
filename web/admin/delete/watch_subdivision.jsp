@@ -88,7 +88,6 @@
     {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script src="${pageContext.request.contextPath }/js/jquery-1.8.3.min.js"></script>
@@ -145,7 +144,7 @@
         table.render({
             elem: '#subdivision'  //绑定table表格  为了找到给那个表格插入数据<table></table>
             , height: 700
-            , url: '<%=request.getContextPath()%>/subdivision/list.do'
+            , url: '<%=request.getContextPath()%>/phy/subdivisionList.do'
             , page: true
             , response: {
                 statusName: 'code'
@@ -168,7 +167,7 @@
                     unresize: true,
                     templet: '<div>{{d.division.divisionName}}</div>'
                 }
-                , {fixed: 'right', width: 178, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
         //监听工具条

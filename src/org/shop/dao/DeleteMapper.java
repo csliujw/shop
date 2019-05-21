@@ -1,9 +1,6 @@
 package org.shop.dao;
 
-import org.shop.pojo.DeleteVO;
-import org.shop.pojo.Division;
-import org.shop.pojo.Product;
-import org.shop.pojo.Subdivision;
+import org.shop.pojo.*;
 import org.shop.utils.Page;
 
 import java.util.List;
@@ -32,26 +29,29 @@ public interface DeleteMapper {
     long subdivisionAll(Subdivision subdivision);
 
     //商品信息
-    List<Product> productList();
+    List<Product> productList(Page<Product> page);
 
-    boolean productDelete();
+    boolean productDelete(Product product);
 
     int productDeleteBatch(DeleteVO vo);
 
     long productAll(Product product);
 
-    /*
     //订单信息
-    List<Order> orderList();
+    List<OrderItem> orderList(Page<OrderItem> order);
 
-    boolean orderDelete();
+    boolean orderDelete(OrderItem order);
 
     int orderDeleteBatch(DeleteVO vo);
 
+    long orderAll(OrderItem order);
+
     //物流信息
-    List<Orders> ordersList();
+    List<Orders> ordersList(Page<Orders> orders);
 
-    boolean ordersDelete();
+    boolean ordersDelete(Orders orders);
 
-    int ordersDeleteBatch(DeleteVO vo);*/
+    int ordersDeleteBatch(DeleteVO vo);
+
+    long ordersAll(Orders orders);
 }

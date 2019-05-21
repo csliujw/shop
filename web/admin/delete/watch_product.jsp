@@ -73,7 +73,6 @@
     {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
@@ -124,7 +123,6 @@
             }
         });
     }
-
     //修改表单的二级联动初始数据
     function selectOption() {
         let divisionValue = $("select[name='divisionId']").val();
@@ -163,33 +161,10 @@
     layui.use(['table', 'form', 'layedit', 'laydate', 'upload'], function () {
         let table = layui.table;
         let form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
-        let upload = layui.upload;
-        //普通图片上传
-        let imgUrl = "";//图片的地址
-        let uploadInst = upload.render({
-            elem: '#uploadProductImage'
-            , url: '${pageContext.request.contextPath}/upload.do'
-            , before: function (obj) {
-                obj.preview(function (index, file, result) {
-                    $('#productImage').attr('src', result);
-                });
-                form.render();
-            }
-            , done: function (res) {
-                //如果上传失败
-                if (res.code > 0) {
-                    return layer.msg('上传失败');
-                } else {
-                    imgUrl = res.data[0].src;
-                    return layer.msg('上传成功' + imgUrl);
-                }
-            }
-        });
-
         table.render({
             elem: '#product'  //绑定table表格  为了找到给那个表格插入数据<table></table>
             , height: 700
-            , url: '<%=request.getContextPath()%>/product/list.do'
+            , url: '<%=request.getContextPath()%>/phy/productList.do'
             , page: true
             , response: {
                 statusName: 'code'
@@ -203,7 +178,7 @@
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'autoIncrement', width: 80, title: '排名', fixed: 'left', templet: '#autoIncrement'}
-                , {field: 'productName', title: '商品名称', width: 160, fixed: 'left'}
+                , {field: 'productName', title: '商品名称', width: 200, fixed: 'left'}
                 , {field: 'productMarketPrice', title: '市场价', width: 80, fixed: 'left'}
                 , {field: 'productShopPrice', title: '商城价', width: 80, fixed: 'left'}
                 , {
@@ -217,7 +192,7 @@
                 , {
                     field: 'productOrHot',
                     title: '热门',
-                    width: 60,
+                    width: 80,
                     fixed: 'left',
                     templet: '<div>{{d.productOrHot==1?"热门":"不热门"}}</div>'
                 }
@@ -229,17 +204,8 @@
                     width: 120,
                     templet: '<div>{{d.subdivision.subdivisionName}}</div>'
                 }
-                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}//
             ]]
-        });
-
-        //自定义验证规则
-        form.verify({
-            title: function (value) {
-                if (value.length < 2) {
-                    return '至少得2个字符';
-                }
-            }
         });
         //监听工具条
         table.on('tool(product)', function (obj) {

@@ -1,81 +1,138 @@
 package org.shop.service;
 
-import org.shop.pojo.DeleteVO;
-import org.shop.pojo.Division;
-import org.shop.pojo.Product;
-import org.shop.pojo.Subdivision;
+import com.google.gson.Gson;
+import org.shop.dao.DeleteMapper;
+import org.shop.pojo.*;
+import org.shop.utils.JSONData;
 import org.shop.utils.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 信息物理删除
  */
 @Service
 public class DeleteService {
-    //商品一级类别
+    @Autowired
+    private DeleteMapper mapper;
+
+
+    //商品一级类别查询
     public String divisionList(Page<Division> page) {
-        return "";
+        try {
+            int start = 0;
+            start = (Integer.parseInt(page.getPage()) - 1) * Integer.parseInt(page.getLimit());
+            page.setStart(start + "");
+            List<Division> list = mapper.divisionList(page);
+            long count = mapper.divisionAll(page.getCondition());
+            return new Gson().toJson(new JSONData<>(count + "", list));
+        } catch (Exception e) {
+            return new Gson().toJson(new JSONData<Division>("0", null));
+        }
     }
 
-    public String divisionDelete(Division div) {
-        return "";
+    //商品一级类别删除
+    public boolean divisionDelete(Division div) {
+        return mapper.divisionDelete(div);
     }
 
-    public String divisionDeleteBatch(DeleteVO vo) {
-        System.out.println("hello");
-        return "";
+    //商品一级类别批量删除
+    public boolean divisionDeleteBatch(DeleteVO vo) {
+        return vo.getIds().length == mapper.divisionDeleteBatch(vo);
     }
 
-    //商品二级类别
+    //商品二级类别查询
     public String subdivisionList(Page<Subdivision> page) {
-        return "";
+        try {
+            int start = 0;
+            start = (Integer.parseInt(page.getPage()) - 1) * Integer.parseInt(page.getLimit());
+            page.setStart(start + "");
+            List<Subdivision> list = mapper.subdivisionList(page);
+            long count = mapper.subdivisionAll(page.getCondition());
+            return new Gson().toJson(new JSONData<>(count + "", list));
+        } catch (Exception e) {
+            return new Gson().toJson(new JSONData<Subdivision>("0", null));
+        }
     }
 
-    public String subdivisionDelete(Subdivision sub) {
-        return "";
+    //商品二级类别删除
+    public boolean subdivisionDelete(Subdivision sub) {
+        return mapper.subdivisionDelete(sub);
     }
 
-    public String subdivisionDeleteBatch(DeleteVO vo) {
-        return "";
+    //商品二级类别批量删除
+    public boolean subdivisionDeleteBatch(DeleteVO vo) {
+        return vo.getIds().length == mapper.subdivisionDeleteBatch(vo);
     }
 
-    //商品信息
+    //商品信息查询
     public String productList(Page<Product> page) {
-        return "";
+        try {
+            int start = 0;
+            start = (Integer.parseInt(page.getPage()) - 1) * Integer.parseInt(page.getLimit());
+            page.setStart(start + "");
+            List<Product> list = mapper.productList(page);
+            long count = mapper.productAll(page.getCondition());
+            return new Gson().toJson(new JSONData<>(count + "", list));
+        } catch (Exception e) {
+            return new Gson().toJson(new JSONData<Product>("0", null));
+        }
     }
 
-    public String productDelete(Product product) {
-        return "";
+    //商品信息删除
+    public boolean productDelete(Product product) {
+        return mapper.productDelete(product);
     }
 
-    public String productDeleteBatch(DeleteVO vo) {
-        return "";
+    //商品信息批量删除
+    public boolean productDeleteBatch(DeleteVO vo) {
+        return vo.getIds().length == mapper.productDeleteBatch(vo);
     }
 
     //订单信息
-    public String orderList() {
-        return "";
+    public String orderList(Page<OrderItem> page) {
+        try {
+            int start = 0;
+            start = (Integer.parseInt(page.getPage()) - 1) * Integer.parseInt(page.getLimit());
+            page.setStart(start + "");
+            List<OrderItem> list = mapper.orderList(page);
+            long count = mapper.orderAll(page.getCondition());
+            return new Gson().toJson(new JSONData<>(count + "", list));
+        } catch (Exception e) {
+            return new Gson().toJson(new JSONData<OrderItem>("0", null));
+        }
     }
 
-    public String orderDelete() {
-        return "";
+    public boolean orderDelete(OrderItem orderItem) {
+        return mapper.orderDelete(orderItem);
     }
 
-    public String orderDeleteBatch(DeleteVO vo) {
-        return "";
+    public boolean orderDeleteBatch(DeleteVO vo) {
+        return vo.getIds().length == mapper.orderDeleteBatch(vo);
     }
 
 
     //物流信息
-    public String ordersList() {
-        return "";
+    public String ordersList(Page<Orders> page) {
+        try {
+            int start = 0;
+            start = (Integer.parseInt(page.getPage()) - 1) * Integer.parseInt(page.getLimit());
+            page.setStart(start + "");
+            List<Orders> list = mapper.ordersList(page);
+            long count = mapper.ordersAll(page.getCondition());
+            return new Gson().toJson(new JSONData<>(count + "", list));
+        } catch (Exception e) {
+            return new Gson().toJson(new JSONData<Orders>("0", null));
+        }
     }
 
-    public String ordersDelete() {
-        return "";
+    public boolean ordersDelete(Orders orders) {
+        return mapper.ordersDelete(orders);
     }
 
-    public String ordersDeleteBatch(DeleteVO vo) {
-        return "";
+    public boolean ordersDeleteBatch(DeleteVO vo) {
+        return vo.getIds().length == mapper.ordersDeleteBatch(vo);
     }
 }

@@ -16,27 +16,31 @@
     <delete id="divisionDelete" parameterType="org.shop.pojo.Division">
       delete from  division
       WHERE division_id=#{divisionId}
+      and division_or_delete = 1
       and (select count(1) from subdivision where division_id = #{divisionId} and subdivision_or_delete= 1) = 0
     </delete>
 
     <!-- 批量删除 -->
-    <update id="divisionDeleteBatch" parameterType="DeleteVO">
-        UPDATE division SET division_or_delete=1
-        WHERE division_id IN
+    <delete id="divisionDeleteBatch" parameterType="DeleteVO">
+        delete from division
+        WHERE
+        division_or_delete = 1
+        and division_id IN
         <foreach collection="ids" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>
         and (select count(1) from subdivision where division_id in
         <foreach collection="ids" open="(" close=")" separator="," item="id">
             #{id}
-        </foreach>) = 0
-    </update>
+        </foreach>
+        and subdivision_or_delete= 1 ) = 0
+    </delete>
 
     <!-- 查询所有 -->
     <select id="divisionAll" resultType="long" parameterType="org.shop.pojo.Division">
         SELECT count(1)
         FROM division
-        WHERE division_or_delete=0
+        WHERE division_or_delete=1
         <if test="divisionName!=null and divisionName!=''">AND division_name like CONCAT("%",#{divisionName},"%")</if>
     </select>
 
@@ -45,7 +49,7 @@
             resultType="org.shop.pojo.Division">
         SELECT division_id,division_name
         FROM division
-        WHERE division_or_delete=0
+        WHERE division_or_delete=1
         <if test="condition!=null and condition.divisionName!=null and condition.divisionName!=''">
             and division_name like concat("%",#{condition.divisionName},"%")
         </if>
@@ -62,21 +66,21 @@
     public int subdivisionDeleteBatch(DeleteVO vo);
     -->
     <!--删除-->
-    <update id="subdivisionDelete" parameterType="Subdivision">
-      update subdivision
-      set subdivision_or_delete = '1'
+    <delete id="subdivisionDelete" parameterType="Subdivision">
+      delete from  subdivision
       where subdivision_id=#{subdivisionId}
-    </update>
+      and subdivision_or_delete = '1'
+    </delete>
 
     <!--批量删除-->
-    <update id="subdivisionDeleteBatch" parameterType="DeleteVO">
-        update subdivision
-        set subdivision_or_delete = '1'
-        where subdivision_id in
+    <delete id="subdivisionDeleteBatch" parameterType="DeleteVO">
+        delete from subdivision
+        where subdivision_or_delete = '1'
+        and subdivision_id in
         <foreach collection="ids" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>
-    </update>
+    </delete>
 
     <resultMap id="subdivision" type="Subdivision">
         <id property="subdivisionId" column="subdivision_id"></id>
@@ -90,7 +94,7 @@
     <!--查询所有-->
     <select id="subdivisionAll" parameterType="Subdivision" resultType="long">
         select count(subdivision.subdivision_id) from subdivision,division
-        where subdivision_or_delete=0
+        where subdivision_or_delete=1
         and subdivision.division_id = division.division_id
         <if test="subdivisionName!=null and subdivisionName!=''">
             and subdivision_name like concat("%",#{subdivisionName},"%")
@@ -109,7 +113,7 @@
         division.division_id,
         division.division_name
         from subdivision,division
-        where subdivision_or_delete=0
+        where subdivision_or_delete=1
         and subdivision.division_id = division.division_id
         <if test="condition!=null and condition.subdivisionName!=null and condition.subdivisionName!=''">
             and subdivision_name like concat("%",#{condition.subdivisionName},"%")
@@ -132,19 +136,21 @@
     public long productAll(Product);
     -->
     <!--删除-->
-    <update id="productDelete" parameterType="Product">
-        update product set product_or_delete = 1
-        where product_id = #{productId}
-    </update>
+    <delete id="productDelete" parameterType="Product">
+        delete from  product
+        where product_or_delete = 1
+        and product_id = #{productId}
+    </delete>
 
     <!--批量删除-->
-    <update id="productDeleteBatch" parameterType="DeleteVO">
-        update product set product_or_delete = 1
-        where product_id in
+    <delete id="productDeleteBatch" parameterType="DeleteVO">
+        delete from product
+        where product_or_delete = 1
+        and product_id in
         <foreach collection="ids" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>
-    </update>
+    </delete>
 
     <!--查询所有-->
     <select id="productAll" parameterType="Product" resultType="long">
@@ -152,7 +158,7 @@
         from product,division,subdivision
         where product.division_id = division.division_id
         and product.subdivision_id = subdivision.subdivision_id
-        and product_or_delete = 0
+        and product_or_delete = 1
         <if test="productName!=null and productName!=''">
             and product_name like concat("%",#{productName},"%")
         </if>
@@ -166,7 +172,7 @@
             and product.subdivision_id = #{subdivision.subdivisionId}
         </if>
     </select>
-    <resultMap id="selectAll" type="Product">
+    <resultMap id="Product" type="Product">
         <id property="productId" column="product_id"/>
         <result property="productName" column="product_name"/>
         <result property="productDate" column="product_date"/>
@@ -186,11 +192,11 @@
         </association>
     </resultMap>
     <!--分页条件查询-->
-    <select id="productList" parameterType="org.shop.utils.Page" resultMap="selectAll">
+    <select id="productList" parameterType="org.shop.utils.Page" resultMap="Product">
         select product.*,division.*,subdivision.*
         from product,division,subdivision
         where product.division_id = division.division_id and product.subdivision_id = subdivision.subdivision_id
-        and product_or_delete = 0
+        and product_or_delete = 1
         <if test="condition!=null and condition.productName!=null and condition.productName!=''">
             and product_name like concat("%",#{condition.productName},"%")
         </if>
@@ -214,7 +220,106 @@
 
     public int orderDeleteBatch(DeleteVO vo);
     -->
+    <!-- 删除 -->
+    <delete id="orderDelete" parameterType="OrderItem">
+      delete from  order_item
+      WHERE order_item_id=#{orderItemId}
+      and order_item_or_delete='1'
+    </delete>
 
+    <!-- 批量删除 -->
+    <delete id="orderDeleteBatch" parameterType="DeleteVO">
+        delete from order_item
+        WHERE order_item_or_delete=1
+        and order_item_id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <resultMap id="OrderItem" type="OrderItem">
+        <id property="orderItemId" column="order_item_id"/>
+        <result property="orderItemCount" column="order_item_count"/>
+        <result property="orderItemSubtotal" column="order_item_subtotal"/>
+        <result property="orderItemDate" column="order_item_date"/>
+        <result property="orderItemStatu" column="order_item_statu"/>
+        <association property="product" column="product_id" javaType="Product">
+            <result property="productName" column="product_name"/>
+            <result property="productImage" column="product_image"/>
+            <result property="productShopPrice" column="product_shop_price"/>
+        </association>
+        <association property="user" column="user_id" javaType="User">
+            <result property="userRealName" column="user_real_name"/>
+            <result property="userUsername" column="user_username"/>
+        </association>
+        <association property="division" column="division_id" javaType="Division">
+            <id property="divisionId" column="division_id"/>
+            <result property="divisionName" column="division_name"/>
+        </association>
+        <association property="subdivision" column="subdivision_id" javaType="Subdivision">
+            <id property="subdivisionId" column="subdivision_id"/>
+            <result property="subdivisionName" column="subdivision_name"/>
+        </association>
+    </resultMap>
+    <!-- 查询所有 -->
+    <select id="orderAll" resultType="long" parameterType="OrderItem">
+        SELECT count(1)
+        FROM product p,division d,subdivision sb,USER u,order_item oi
+        WHERE p.`division_id` = d.`division_id`
+        AND p.`subdivision_id` = sb.`subdivision_id`
+        AND p.`product_id` = oi.`product_id`
+        AND u.`user_id` = oi.`user_id`
+        AND oi.`order_item_or_delete` = 1
+        <!-- 用户名 -->
+        <if test="user!=null and user.userRealName!=null and user.userRealName!=''">
+            AND (u.`user_real_name` LIKE CONCAT("%",#{user.userRealName},"%") or u.user_username like
+            CONCAT("%",#{user.userRealName},"%"))
+        </if>
+        <if test="division!=null and division.divisionId!=null and division.divisionId!=''">
+            <!-- 商品一级类别 -->
+            AND d.`division_id` = #{product.division.divisionId}
+        </if>
+        <if test="subdivision!=null and subdivision.subdivisionId!=null and subdivision.subdivisionId!=''">
+            <!-- 商品二级类别 -->
+            AND sb.`subdivision_id` = #{subdivision.subdivisionId}
+        </if>
+        <if test="product!=null and product.productName!=null and product.productName!=''">
+            <!-- 商品名称 -->
+            AND p.`product_name` LIKE CONCAT("%",#{product.productName},"%")
+        </if>
+    </select>
+
+    <!-- 分页条件查询所有 -->
+    <select id="orderList" resultMap="OrderItem" parameterType="org.shop.utils.Page">
+        SELECT p.`product_name`,p.`product_image`,p.`product_shop_price`,
+        d.`division_id`,d.`division_name`,sb.`subdivision_id`,sb.`subdivision_name`,
+        u.`user_username`,u.`user_real_name`,
+        oi.`order_item_id`,oi.`order_item_count`,oi.`order_item_subtotal`,oi.`order_item_date`,oi.`order_item_statu`
+        FROM product p,division d,subdivision sb,USER u,order_item oi
+        WHERE p.`division_id` = d.`division_id`
+        AND p.`subdivision_id` = sb.`subdivision_id`
+        AND p.`product_id` = oi.`product_id`
+        AND u.`user_id` = oi.`user_id`
+        AND oi.`order_item_or_delete` = 1
+        <!-- 用户名 -->
+        <if test="condition!=null and condition.user!=null and condition.user.userRealName!=null and condition.user.userRealName!=''">
+            AND (u.`user_real_name` LIKE CONCAT("%",#{condition.user.userRealName},"%") or u.user_username like
+            CONCAT("%",#{condition.user.userRealName},"%"))
+        </if>
+        <if test="condition!=null and condition.division!=null and condition.division.divisionId!=null and condition.division.divisionId!=''">
+            <!-- 商品一级类别 -->
+            AND d.`division_id` = #{condition.division.divisionId}
+        </if>
+        <if test="condition!=null and condition.subdivision!=null and condition.subdivision.subdivisionId!=null and condition.subdivision.subdivisionId!=''">
+            <!-- 商品二级类别 -->
+            AND sb.`subdivision_id` = #{condition.subdivision.subdivisionId}
+        </if>
+        <if test="condition!=null and condition.product!=null and condition.product.productName!=null and condition.product.productName!=''">
+            <!-- 商品名称 -->
+            AND p.`product_name` LIKE CONCAT("%",#{condition.product.productName},"%")
+        </if>
+        limit #{start},#{limit}
+    </select>
 
     <!--
     //物流信息
@@ -224,4 +329,48 @@
 
     public int ordersDeleteBatch(DeleteVO vo);
     -->
+    <select id="ordersList" parameterType="org.shop.utils.Page" resultType="Orders">
+        select orders.*,product.`product_name`
+        from orders,order_item,product
+        where orders.`orders_id` = order_item.`orders_id`
+        and order_item.`product_id` = product.`product_id`
+        and orders_or_delete=1
+        <if test="condition!=null and condition.userUsername!=null and condition.userUsername!=''">
+            and orders.user_username like concat("%",#{condition.userUsername},"%")
+        </if>
+        <if test="condition.productName!=null and condition.productName!=''">
+            and product.product_name like concat("%",#{condition.productName},"%")
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <select id="ordersAll" parameterType="Orders" resultType="long">
+        select count(1)
+        from orders,order_item,product
+        where orders.`orders_id` = order_item.`orders_id`
+        and order_item.`product_id` = product.`product_id`
+        and orders_or_delete=1
+        <if test="userUsername!=null and userUsername!=''">
+            and orders.user_username like concat("%",#{userUsername},"%")
+        </if>
+        <if test="productName!=null and productName!=''">
+            and product.product_name like concat("%",#{productName},"%")
+        </if>
+    </select>
+    <!-- 删除 -->
+    <update id="ordersDelete" parameterType="Orders">
+      delete from  orders
+      WHERE orders_id=#{ordersId}
+      and orders_or_delete='1'
+    </update>
+
+    <!-- 批量删除 -->
+    <delete id="ordersDeleteBatch" parameterType="DeleteVO">
+        delete from orders
+        WHERE orders_or_delete=1
+        and orders_id IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

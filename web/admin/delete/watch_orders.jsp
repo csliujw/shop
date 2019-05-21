@@ -117,8 +117,6 @@
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="arrive">确认到货</a>
 </script>
 <script>
 
@@ -208,7 +206,7 @@
         table.render({
             elem: '#logistics'  //绑定table表格  为了找到给那个表格插入数据<table></table>
             , height: 700
-            , url: '<%=request.getContextPath()%>/orders/list.do'
+            , url: '<%=request.getContextPath()%>/phy/ordersList.do'
             , page: true
             , response: {
                 statusName: 'code'
@@ -236,7 +234,7 @@
                     width: 120,
                     templet: "<div>{{d.ordersState=='0'?'暂未到货':'已经送达'}}</div>"
                 }
-                , {fixed: 'right', width: 200, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
         //监听工具条

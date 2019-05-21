@@ -5,7 +5,6 @@
 <!-- 写Sql语句   -->
 <mapper namespace="org.shop.dao.LogisticsMapper">
 
-
     <select id="selectAllByPage" parameterType="org.shop.utils.Page" resultType="Orders">
         select orders.*,product.`product_name`
         from orders,order_item,product

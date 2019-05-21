@@ -11,10 +11,10 @@ import java.io.IOException;
  * 短信校验码
  */
 public class RegisterCode {
-    public static int appid = 1400207575; // 1400开头
+    public static int appid = 1400207575;
     public static String appkey = "8572b7af54cbab44a50d346aedae6648";
-    public static int templateId = 323829; //
-    public static String smsSign = "月映青空"; //
+    public static int templateId = 323829;
+    public static String smsSign = "月映青空";
 
     /***
      *

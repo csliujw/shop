@@ -11,7 +11,6 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/css/layui.css" media="all">
-    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
 <!-- 操作框 -->
@@ -42,7 +41,6 @@
     {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script src="${pageContext.request.contextPath }/js/jquery-1.8.3.min.js"></script>
@@ -83,7 +81,7 @@
             success: function (json) {
                 layer.open({
                     title: "操作信息",
-                    content: "删除成功,请刷新" //这里content是一个普通的String
+                    content: json.message //这里content是一个普通的String
                 });
             },
             error: function () {
@@ -101,7 +99,7 @@
         table.render({
             elem: '#test'  //绑定table表格  为了找到给那个表格插入数据<table></table> 
             , height: 700
-            , url: '<%=request.getContextPath()%>/division/list.do'
+            , url: '<%=request.getContextPath()%>/phy/divisionList.do'
             , page: true
             , response: {
                 statusName: 'code'
@@ -116,7 +114,7 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'autoIncrement', width: 80, title: '排名', fixed: 'left', templet: '#autoIncrement'}
                 , {field: 'divisionName', title: '商品一级类别名称', width: 200, fixed: 'left', unresize: true}
-                , {fixed: 'right', width: 178, align: 'center', toolbar: '#barDemo'}//
+                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}//
             ]]
         });
         //监听工具条
@@ -125,7 +123,7 @@
             if (obj.event === 'del') {
                 layer.confirm('真的删除么', function (index) {
                     let str = {"divisionId": data.divisionId};
-                    deleteSingle(str, "division/delete.do", obj);
+                    //deleteSingle(str, "division/delete.do", obj);
                     layer.close(index);
                 });
             }
@@ -144,7 +142,7 @@
                         array += data[i].divisionId;
                     }
                 }
-                deletes(array, "division/deletes.do");
+                //deletes(array, "division/deletes.do");
             }
             , reload: function () {
                 let $searchDivisionName = $("#searchDivisionName").val();
