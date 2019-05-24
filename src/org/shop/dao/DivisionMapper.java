@@ -33,4 +33,6 @@ public interface DivisionMapper {
 
     //查询所有信息
     List<Division> selectAllDetail(boolean orDelete);
+
+    List<Division> selectAllDivisions(boolean orDelete);
 }

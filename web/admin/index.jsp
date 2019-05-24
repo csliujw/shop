@@ -36,9 +36,7 @@
 
     <div class="layui-side layui-bg-black blog_side">
         <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
                 <!-- 用户借阅书籍操作 -->
                 <li class="layui-nav-item">
                     <a href="javascript:">商品一级分类管理</a>
@@ -51,7 +49,7 @@
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" lay-shrink="all">
                     <a href="javascript:">商品二级分类管理</a>
                     <dl class="layui-nav-child">
                         <dd>
@@ -126,6 +124,10 @@
                         </dd>
                     </dl>
                 </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:" id="updateSession">刷新商品类别缓存</a>
+
+                </li>
             </ul>
         </div>
     </div>
@@ -137,8 +139,23 @@
 </div>
 <script>
     //JavaScript代码区域
-    layui.use('element', function () {
+    layui.use(['element', 'table', 'form', 'layedit'], function () {
         let element = layui.element;
+        let table = layui.table;
+        let form = layui.form, layer = layui.layer, layedit = layui.layedit;
+        $("#updateSession").click(function () {
+            $.ajax({
+                type: "POST",// 方法类型
+                dataType: "json",// 预期服务器返回的数据类型
+                url: "${pageContext.request.contextPath }/division/updateSession.do",// url
+                success: function (json) {
+                    layer.msg(json.message);
+                },
+                error: function () {
+                    layer.msg("刷新失败，请重试!");
+                }
+            });
+        });
     });
     //新增商品一级类别
     $(".add_division").click(function () {
@@ -193,8 +210,6 @@
     $(".query_delete_orders").click(function () {
         $("#page").attr("src", "${pageContext.request.contextPath}/admin/delete/watch_orders.jsp");
     });
-
 </script>
 </body>
-
 </html>

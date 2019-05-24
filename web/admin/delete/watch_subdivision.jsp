@@ -36,7 +36,7 @@
         <div class="layui-input-inline">
             <select name="searchDivisionName" id="searchDivisionName" lay-filter="aihao" class="layui-input">
                 <option value="">---请选择---</option>
-                <c:forEach items="${divisionDelete}" var="item" varStatus="s">
+                <c:forEach items="${divisionsDelete}" var="item" varStatus="s">
                     <option value="${item.divisionId}">${item.divisionName}</option>
                 </c:forEach>
             </select>
@@ -77,7 +77,6 @@
             }
         });
     }
-
     //批量输出 传入要输出数据的数组及urls
     function deletes(array, urls) {
         $.ajax({

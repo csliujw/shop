@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
     <import resource="applicationContext-service.xml"></import>
     <import resource="applicationContext-bean.xml"></import>
     <!-- 配置 读取properties文件 jdbc.properties -->
@@ -28,11 +28,4 @@
         <property name="basePackage" value="org.shop.dao"/>
     </bean>
 
-    <!-- 配置事务管理 -->
-    <bean id="transactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <!-- 加载数据源 -->
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

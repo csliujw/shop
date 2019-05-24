@@ -8,14 +8,12 @@ import org.shop.utils.JSONData;
 import org.shop.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service("divisionServiceImpl")
-@Transactional
-public class DivisionServiceImpl implements IBaseService<Division> {
+public class DivisionServiceImpl implements IBaseExtend<Division> {
 
     @Autowired
     private DivisionMapper divisionMapper;
@@ -87,7 +85,6 @@ public class DivisionServiceImpl implements IBaseService<Division> {
         return result;
     }
 
-
     /**
      * @param page
      * @return 条件分页查询结果
@@ -106,13 +103,16 @@ public class DivisionServiceImpl implements IBaseService<Division> {
         }
     }
 
-    /**
-     * @param division
-     * @return 查询该xx的具体信息
-     */
     @Override
     public String selectSingle(Division division) {
         return null;
     }
 
+    /**
+     * @return
+     */
+    @Override
+    public List<Division> selectAllInfo(boolean orDelete) {
+        return divisionMapper.selectAllDivisions(orDelete);
+    }
 }

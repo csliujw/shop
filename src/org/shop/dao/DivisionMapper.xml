@@ -93,4 +93,15 @@
         </if>
         and subdivision.division_id = division.division_id
     </select>
+
+    <select id="selectAllDivisions" resultMap="selectAll" parameterType="boolean">
+        select * from division
+        where
+        <if test="_parameter==true">
+            division_or_delete = 1
+        </if>
+        <if test="_parameter==false">
+            division_or_delete = 0
+        </if>
+    </select>
 </mapper>

@@ -66,7 +66,7 @@
                     <div class="layui-input-block">
                         <select name="divisionId" id="divisionId" lay-filter="aihao" class="layui-input">
                             <option value="">---请选择---</option>
-                            <c:forEach items="${division}" var="item" varStatus="s">
+                            <c:forEach items="${divisions}" var="item" varStatus="s">
                                 <option value="${item.divisionId}">${item.divisionName}</option>
                             </c:forEach>
                         </select>

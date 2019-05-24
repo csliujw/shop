@@ -113,7 +113,7 @@
                         return layer.msg('上传失败');
                     } else {
                         imgUrl = res.data[0].src;
-                        return layer.msg('上传成功' + imgUrl);
+                        return layer.msg('上传成功');
                     }
                 }
             });
@@ -169,14 +169,10 @@
                         contentType: 'application/json;charset=utf-8',
                         url: "${pageContext.request.contextPath}/product/add.do",// url
                         success: function (json) {
-                            layer.alert(json.message, {
-                                title: "操作成功"
-                            })
+                            layer.msg(json.message);
                         },
                         error: function (json) {
-                            layer.alert(json.message, {
-                                title: "操作失败"
-                            })
+                            layer.msg(json.message);
                         }
                     });
                 }

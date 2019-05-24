@@ -28,7 +28,7 @@
                 <label class="layui-form-label">单行选择框</label>
                 <div class="layui-input-block">
                     <select name="divisionId" id="divisionId" lay-filter="aihao">
-                        <c:forEach items="${division}" var="item" varStatus="s">
+                        <c:forEach items="${divisions}" var="item" varStatus="s">
                             <option value="${item.divisionId}">${item.divisionName}</option>
                         </c:forEach>
                     </select>
