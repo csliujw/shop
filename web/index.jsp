@@ -205,5 +205,9 @@
 
 </div>
 </body>
-
+<script>
+    if ("${divisions}" == '') {
+        window.location.href = "${pageContext.request.contextPath}/products/index.do";
+    }
+</script>
 </html>

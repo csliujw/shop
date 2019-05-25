@@ -83,29 +83,8 @@
     let page = 2;//记录当前要请求数据的页数 最开始是第一页，所以从2开始请求
     let $appendDiv = $("#append");//在哪里追加内容
     let $divisionId = $("#divisionId").val();//检索条件
-    //触发事件
-    $("#more_product").click(function () {
-        let values = "page=" + page + "&limit=24&division.divisionId=" + $divisionId;
-        $.ajax({
-            url: "${pageContext.request.contextPath}/products/more.do",
-            dataType: "json",
-            data: values,
-            type: "POST",
-            success: function (json) {
-                if (json.length < 1) {
-                    alert("没有商品啦~~")
-                }
-                let str = "";
-                str = concatStr(json, str);
-                page = page + 1;
-                $appendDiv.append(str);
-                console.log(str);
-            },
-            error: function (json) {
-            }
-        })
-    });
 
+    //拼接字符串 追加至页面中
     function concatStr(json, str) {
         for (let i = 0; i < json.length; i++) {
             str += `<div class="col-md-2" style="height:250px">
@@ -123,5 +102,30 @@
         }
         return str;
     }
+
+    layui.use(['form', 'table'], function () {
+        let layer = layui.layer;
+        //触发事件
+        $("#more_product").click(function () {
+            let values = "page=" + page + "&limit=24&division.divisionId=" + $divisionId;
+            $.ajax({
+                url: "${pageContext.request.contextPath}/products/more.do",
+                dataType: "json",
+                data: values,
+                type: "POST",
+                success: function (json) {
+                    if (json.length < 1) {
+                        layer.msg("没有商品啦~~");
+                    }
+                    let str = "";
+                    str = concatStr(json, str);
+                    page = page + 1;
+                    $appendDiv.append(str);
+                },
+                error: function (json) {
+                }
+            })
+        });
+    });
 </script>
 </html>

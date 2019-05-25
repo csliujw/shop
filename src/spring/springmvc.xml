@@ -29,7 +29,19 @@
         <!-- 上传图片的大小：5000000B-->
         <property name="maxUploadSize" value="5000000"/>
     </bean>
-
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/products/*"/>
+            <mvc:exclude-mapping path="/user/login.do"/>
+            <mvc:exclude-mapping path="/user/loginTel.do"/>
+            <mvc:exclude-mapping path="/user/register.do"/>
+            <mvc:exclude-mapping path="/user/checkUsername.do"/>
+            <mvc:exclude-mapping path="/user/code.do"/>
+            <bean class="org.shop.controller.interceptor.CheckUserOrLogin"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <mvc:view-controller path="/" view-name="redirect:/products/index.do"/>
     <!-- 配置视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 前缀 -->

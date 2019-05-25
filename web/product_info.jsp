@@ -152,6 +152,8 @@
                     success: function (json) {
                         if (json.code == "OK") {
                             layer.msg("添加成功");
+                        } else if (json.code == "unLogin") {
+                            window.location.href = "${pageContext.request.contextPath}/login.jsp";
                         } else {
                             layer.msg("添加失败");
                         }

@@ -33,7 +33,6 @@ public class UserOperateController {
 
     /**
      * 查询未付款的
-     *
      * @param vo
      * @return
      */
@@ -46,7 +45,6 @@ public class UserOperateController {
 
     /**
      * 查询付款了的
-     *
      * @param vo
      * @return
      */
@@ -68,7 +66,6 @@ public class UserOperateController {
         }
         request.setAttribute("message", "用户名或密码错误!");
         return "forward:/login.jsp";
-
     }
 
     @RequestMapping("loginTel.do")
