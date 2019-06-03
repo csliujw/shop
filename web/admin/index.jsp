@@ -25,11 +25,11 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:">
-                    <img src="images/007.png" class="layui-nav-img">${user.username}
+                    <img src="images/007.png" class="layui-nav-img">${admin.adminUsername}
                 </a>
             </li>
             <li class="layui-nav-item">
-                <a href="${pageContext.request.contextPath}">退了</a>
+                <a href="${pageContext.request.contextPath}/admin/logout.do">退了</a>
             </li>
         </ul>
     </div>
@@ -38,84 +38,88 @@
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
                 <!-- 用户借阅书籍操作 -->
-                <li class="layui-nav-item">
-                    <a href="javascript:">商品一级分类管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:" class="add_division layui-nav-itemed">添加商品一级分类</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:" class="query_division layui-nav-itemed">查看商品一级分类</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item" lay-shrink="all">
-                    <a href="javascript:">商品二级分类管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:" class="add_subdivision layui-nav-itemed">添加商品二级分类</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:" class="query_subdivision layui-nav-itemed">查看商品二级分类</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:">商品信息管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:" class="add_product">新增商品</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:" class="query_product">查询商品信息</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:">订单信息管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:" class="query_order">查询订单信息</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:">物流信息管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:" class="query_orders">查询物流信息</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:">用户信息管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:" class="query_user">查询用户信息</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:">信息物理删除</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:" class="query_delete_division">商品一级类别</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:" class="query_delete_subdivision">商品二级类别</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:" class="query_delete_product">商品信息</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:" class="query_delete_order">订单信息</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:" class="query_delete_orders">物流信息</a>
-                        </dd>
-                    </dl>
-                </li>
-
+                ${admin.adminOrSuper}
+                <c:if test="${admin.adminOrSuper==0}">
+                    <li class="layui-nav-item">
+                        <a href="javascript:">商品一级分类管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:" class="add_division layui-nav-itemed">添加商品一级分类</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:" class="query_division layui-nav-itemed">查看商品一级分类</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item" lay-shrink="all">
+                        <a href="javascript:">商品二级分类管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:" class="add_subdivision layui-nav-itemed">添加商品二级分类</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:" class="query_subdivision layui-nav-itemed">查看商品二级分类</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:">商品信息管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:" class="add_product">新增商品</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:" class="query_product">查询商品信息</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:">订单信息管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:" class="query_order">查询订单信息</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a class="" href="javascript:">物流信息管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:" class="query_orders">查询物流信息</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a class="" href="javascript:">用户信息管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:" class="query_user">查询用户信息</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </c:if>
+                <c:if test="${admin.adminOrSuper==1}">
+                    <li class="layui-nav-item">
+                        <a class="" href="javascript:">信息物理删除</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:" class="query_delete_division">商品一级类别</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:" class="query_delete_subdivision">商品二级类别</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:" class="query_delete_product">商品信息</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:" class="query_delete_order">订单信息</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:" class="query_delete_orders">物流信息</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </c:if>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:">修改个人信息</a>
                     <dl class="layui-nav-child">
@@ -210,6 +214,10 @@
     $(".query_delete_orders").click(function () {
         $("#page").attr("src", "${pageContext.request.contextPath}/admin/delete/watch_orders.jsp");
     });
+
+    $(".updatePassword").click(function () {
+        $("#page").attr("src", "${pageContext.request.contextPath}/admin/update.jsp");
+    })
 </script>
 </body>
 </html>

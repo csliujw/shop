@@ -51,7 +51,13 @@ public class LogisticsService {
         return mapper.update(orders);
     }
 
+    //确认收货
     public boolean arrive(Orders order) {
         return mapper.arrive(order);
+    }
+
+    //查询单条数据信息
+    public Orders selectOne(String id) {
+        return mapper.selectOne(id);
     }
 }

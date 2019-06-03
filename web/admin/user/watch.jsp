@@ -68,9 +68,11 @@
                     title: "操作信息",
                     content: json.message //这里content是一个普通的String
                 });
+
                 function close() {
                     layer.closeAll();
                 }
+
                 setTimeout(close, 2000);
             },
             error: function () {
@@ -138,40 +140,44 @@
         let table = layui.table;
         let form = layui.form, layer = layui.layer, layedit = layui.layedit;
 
-        table.render({
-            elem: '#user'  //绑定table表格  为了找到给那个表格插入数据<table></table>
-            , height: 700
-            , url: '<%=request.getContextPath()%>/userM/list.do'
-            , page: true
-            , response: {
-                statusName: 'code'
-                , statusCode: '0'
-                , msgName: 'msg'
-                , countName: 'count'
-                , dataName: 'data'
-            }
-            , limit: 10
-            , id: 'contentTable'
-            , cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                , {field: 'autoIncrement', width: 80, title: '序号', fixed: 'left', templet: '#autoIncrement'}
-                , {field: 'userUsername', title: '用户昵称', width: 160, fixed: 'left'}
-                , {field: 'userRealName', title: '用户姓名', width: 120, fixed: 'left'}
-                , {field: 'userEmail', title: '用户邮箱', width: 200, fixed: 'left'}
-                , {field: 'userTelephone', title: '用户电话', width: 120, fixed: 'left'}
-                , {field: 'userBirthday', title: '用户生日', width: 120, fixed: 'left'}
-                , {field: 'userSex', title: '性别', width: 80, fixed: 'left'}
-                , {
-                    field: 'userState',
-                    title: '状态',
-                    width: 160,
-                    fixed: 'left',
-                    templet: '<div>{{d.userState==1?"激活":"已注销"}}</div>'
+        function loads() {
+            table.render({
+                elem: '#user'  //绑定table表格  为了找到给那个表格插入数据<table></table>
+                , height: 700
+                , url: '<%=request.getContextPath()%>/userM/list.do'
+                , page: true
+                , response: {
+                    statusName: 'code'
+                    , statusCode: '0'
+                    , msgName: 'msg'
+                    , countName: 'count'
+                    , dataName: 'data'
                 }
-                , {field: 'userAddress', title: '住址', width: 250, fixed: 'left'}
-                , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}
-            ]]
-        });
+                , limit: 10
+                , id: 'contentTable'
+                , cols: [[
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'autoIncrement', width: 80, title: '序号', fixed: 'left', templet: '#autoIncrement'}
+                    , {field: 'userUsername', title: '用户昵称', width: 160, fixed: 'left'}
+                    , {field: 'userRealName', title: '用户姓名', width: 120, fixed: 'left'}
+                    , {field: 'userEmail', title: '用户邮箱', width: 200, fixed: 'left'}
+                    , {field: 'userTelephone', title: '用户电话', width: 120, fixed: 'left'}
+                    , {field: 'userBirthday', title: '用户生日', width: 120, fixed: 'left'}
+                    , {field: 'userSex', title: '性别', width: 80, fixed: 'left'}
+                    , {
+                        field: 'userState',
+                        title: '状态',
+                        width: 160,
+                        fixed: 'left',
+                        templet: '<div>{{d.userState==1?"激活":"已注销"}}</div>'
+                    }
+                    , {field: 'userAddress', title: '住址', width: 250, fixed: 'left'}
+                    , {fixed: 'right', width: 80, align: 'center', toolbar: '#barDemo'}
+                ]]
+            });
+        }
+
+        loads();
         //监听工具条
         table.on('tool(user)', function (obj) {
             let data = obj.data;

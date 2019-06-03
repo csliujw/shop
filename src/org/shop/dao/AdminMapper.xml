@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 写Sql语句   -->
+<mapper namespace="org.shop.dao.AdminMapper">
+    <!--
+    //登录
+    boolean login(Admin admin);
+    //查询个人信息
+    Admin adminInfo(String id);
+    //修改信息
+    boolean updateAdmin(Admin admin);
+    -->
+    <!-- 登录 -->
+    <select id="login" parameterType="Admin" resultType="Admin">
+        select * from admin
+        where admin_username=#{adminUsername}
+        and admin_password=#{adminPassword}
+    </select>
+
+    <!-- 找回密码 -->
+    <select id="adminInfo" parameterType="Admin" resultType="Admin">
+        select * from admin
+        where admin_username=#{adminUsername}
+        and admin_tel=#{adminTel}
+    </select>
+
+    <!-- 更新密码 -->
+    <update id="updateAdmin" parameterType="Admin">
+        update admin set admin_password=#{adminPassword}
+        where admin_id=#{adminId}
+    </update>
+</mapper>

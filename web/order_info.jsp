@@ -73,7 +73,7 @@
                             <ul class="item-content layui-clear">
                                 <li class="th th-item" class="left: -50px;">
                                     <div class="item-cont">
-                                        <img src="${pageContext.request.contextPath}/${item.product.productImage}">
+                                        <img src="/${item.product.productImage}">
                                         <div class="text">
                                             <div class="title">${item.product.productName}</div>
                                         </div>

@@ -197,28 +197,28 @@
                 , {
                     field: 'orderItemStatu',
                     title: '订单状态',
-                    width: 120,
+                    width: 100,
                     fixed: 'left',
                     templet: '<div>{{d.orderItemStatu==1?"已付款":"未付款"}}</div>'
                 }
                 , {
                     field: 'orderItemDate',
                     title: '订单创建时间',
-                    width: 160,
+                    width: 120,
                     fixed: 'left',
                     templet: '<div>{{d.orderItemDate}}</div>'
                 }
                 , {
                     field: 'userUsername',
                     title: '用户昵称',
-                    width: 160,
+                    width: 120,
                     fixed: 'left',
                     templet: '<div>{{d.user.userUsername}}</div>'
                 }
                 , {
                     field: 'userRealName',
                     title: '用户真实姓名',
-                    width: 160,
+                    width: 120,
                     fixed: 'left',
                     templet: '<div>{{d.user.userRealName}}</div>'
                 }
@@ -294,7 +294,6 @@
             active[type] ? active[type].call(this) : '';
         });
     });
-
 </script>
 </body>
 </html>

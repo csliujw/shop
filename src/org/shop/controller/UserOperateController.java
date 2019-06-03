@@ -1,14 +1,17 @@
 package org.shop.controller;
 
+import org.shop.pojo.Orders;
 import org.shop.pojo.User;
 import org.shop.pojo.UserOrder;
 import org.shop.pojo.UserOrderVO;
+import org.shop.service.LogisticsService;
 import org.shop.service.UserOperateService;
 import org.shop.service.UserOrderService;
 import org.shop.utils.RegisterCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,12 +30,44 @@ public class UserOperateController {
     @Autowired
     @Qualifier("userOperateService")//通过注解和bean配置的方式混合注入
     private UserOperateService service;
+
     @Autowired
     @Qualifier("userOrderService")
     private UserOrderService userOrderService;
 
+    @Autowired
+    @Qualifier("logisticsService")
+    private LogisticsService logi;//确认收货 及查询单个商品的订单信息
+
+    /**
+     * 查询可以确认到货的商品 单个数据查询
+     *
+     * @return
+     */
+    @RequestMapping("confirm.do")
+    public String confirmArrive(String ordersId, Model model) {
+        //查询物流表数据
+        Orders orders = logi.selectOne(ordersId);
+        //确认收货就是更新 orders_date;
+        System.out.println(orders.toString());
+        model.addAttribute("ordersItem", orders);
+        return "forward:/confirm.jsp";
+    }
+
+    /**
+     * 确认收货
+     */
+    @RequestMapping("arrive.do")
+    @ResponseBody
+    public String Arrive(@RequestBody Orders orders) {
+        boolean arrive = logi.arrive(orders);
+        System.out.println(arrive);
+        return arrive ? "{\"message\":\"OK\"}" : "{\"message\":\"default\"}";
+    }
+
     /**
      * 查询未付款的
+     *
      * @param vo
      * @return
      */
@@ -45,6 +80,7 @@ public class UserOperateController {
 
     /**
      * 查询付款了的
+     *
      * @param vo
      * @return
      */

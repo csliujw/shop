@@ -12,8 +12,8 @@ public class UserOrder {
     private String orderItemCount;//购买数目
     private String orderItemSubtotal;//总价钱
     private String ordersLogistics;
-    private String ordersSate;//订单状态
-
+    private String ordersState;//订单状态
+    private String ordersId;
     public String getProductId() {
         return productId;
     }
@@ -78,11 +78,19 @@ public class UserOrder {
         this.ordersLogistics = ordersLogistics;
     }
 
-    public String getOrdersSate() {
-        return ordersSate;
+    public String getOrdersState() {
+        return ordersState;
     }
 
-    public void setOrdersSate(String ordersSate) {
-        this.ordersSate = ordersSate;
+    public void setOrdersState(String ordersState) {
+        this.ordersState = ordersState;
+    }
+
+    public String getOrdersId() {
+        return ordersId;
+    }
+
+    public void setOrdersId(String ordersId) {
+        this.ordersId = ordersId;
     }
 }

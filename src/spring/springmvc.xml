@@ -24,6 +24,7 @@
     <mvc:resources location="/products/" mapping="/products/**"/>
     <mvc:resources location="/products/1/" mapping="/products/1/**"/>
     <mvc:resources location="/lay/modules/" mapping="/lay/modules/**"/>
+    <mvc:resources location="/admin/" mapping="/admin/index.html"/>
     <!-- 上传图片配置实现类 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 上传图片的大小：5000000B-->
@@ -38,6 +39,7 @@
             <mvc:exclude-mapping path="/user/register.do"/>
             <mvc:exclude-mapping path="/user/checkUsername.do"/>
             <mvc:exclude-mapping path="/user/code.do"/>
+            <mvc:exclude-mapping path="/admin/login.do"/>
             <bean class="org.shop.controller.interceptor.CheckUserOrLogin"></bean>
         </mvc:interceptor>
     </mvc:interceptors>

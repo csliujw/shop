@@ -23,14 +23,44 @@ public class RegisterCode {
      */
     public static String sendMessage(String phoneNumbers) {
         try {
-            String[] params = {(int) ((Math.random() + 1) * 1000) + "", "5"};//
-            System.out.println(params[0]);
+            String[] params = {(int) ((Math.random() + 1) * 1000) + "", "5"};//第一个参数是验证码 第二个是有效时间
             SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
             SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers,
                     templateId, params, smsSign, "", "");  //
             System.out.println(result);
             if ("OK".equals(result.errMsg)) {
                 return params[0];
+            }
+            return "-1";
+        } catch (HTTPException e) {
+            // HTTP 响应码错误
+            e.printStackTrace();
+        } catch (JSONException e) {
+            // JSON 解析错误
+            e.printStackTrace();
+        } catch (IOException e) {
+            // 网络 IO 错误
+            e.printStackTrace();
+        }
+        return "-1";
+    }
+
+    /**
+     * 找回密码
+     *
+     * @param tel
+     * @param password
+     * @return
+     */
+    public static String sendPassword(String tel, String password) {
+        try {
+            String[] params = {password, "5"};//第一个参数是验证码 第二个是有效时间
+            SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
+            SmsSingleSenderResult result = ssender.sendWithParam("86", tel,
+                    templateId, params, smsSign, "", "");
+            System.out.println(result);
+            if ("OK".equals(result.errMsg)) {
+                return "1";
             }
             return "-1";
         } catch (HTTPException e) {

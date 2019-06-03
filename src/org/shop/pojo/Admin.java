@@ -7,7 +7,8 @@ public class Admin {
     private String adminId;
     private String adminUsername;
     private String adminPassword;
-    private String adminOrSuper;
+    private int adminOrSuper;
+    private String adminTel;
 
     public String getAdminId() {
         return adminId;
@@ -33,12 +34,20 @@ public class Admin {
         this.adminPassword = adminPassword;
     }
 
-    public String getAdminOrSuper() {
+    public int getAdminOrSuper() {
         return adminOrSuper;
     }
 
-    public void setAdminOrSuper(String adminOrSuper) {
+    public void setAdminOrSuper(int adminOrSuper) {
         this.adminOrSuper = adminOrSuper;
+    }
+
+    public String getAdminTel() {
+        return adminTel;
+    }
+
+    public void setAdminTel(String adminTel) {
+        this.adminTel = adminTel;
     }
 
     @Override
@@ -48,6 +57,7 @@ public class Admin {
                 ", adminUsername='" + adminUsername + '\'' +
                 ", adminPassword='" + adminPassword + '\'' +
                 ", adminOrSuper='" + adminOrSuper + '\'' +
+                ", adminTel='" + adminTel + '\'' +
                 '}';
     }
 }

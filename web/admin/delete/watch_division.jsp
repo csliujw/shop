@@ -154,6 +154,7 @@
                 form.render();
             }
         };
+
         $('i').on('click', function () {
             let type = $(this).data('type');
             active[type] ? active[type].call(this) : '';

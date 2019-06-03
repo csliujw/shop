@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>管理员登录界面</title>
+    <style>
+        .block {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .sliderContainer {
+            position: relative;
+            text-align: center;
+            width: 387px;
+            height: 40px;
+            line-height: 40px;
+            margin-top: 15px;
+            background: #f7f9fa;
+            color: #45494c;
+            border: 1px solid #e4e7eb;
+        }
+
+        .sliderContainer_active .slider {
+            height: 38px;
+            top: -1px;
+            border: 1px solid #1991FA;
+        }
+
+        .sliderContainer_active .sliderMask {
+            height: 38px;
+            border-width: 1px;
+        }
+
+        .sliderContainer_success .slider {
+            height: 38px;
+            top: -1px;
+            border: 1px solid #52CCBA;
+            background-color: #52CCBA !important;
+        }
+
+        .sliderContainer_success .sliderMask {
+            height: 38px;
+            border: 1px solid #52CCBA;
+            background-color: #D2F4EF;
+        }
+
+        .sliderContainer_success .sliderIcon {
+            background-position: 0 0 !important;
+        }
+
+        .sliderContainer_fail .slider {
+            height: 38px;
+            top: -1px;
+            border: 1px solid #f57a7a;
+            background-color: #f57a7a !important;
+        }
+
+        .sliderContainer_fail .sliderMask {
+            height: 38px;
+            border: 1px solid #f57a7a;
+            background-color: #fce1e1;
+        }
+
+        .sliderContainer_fail .sliderIcon {
+            background-position: 0 -83px !important;
+        }
+
+        .sliderContainer_active .sliderText, .sliderContainer_success .sliderText, .sliderContainer_fail .sliderText {
+            display: none;
+        }
+
+        .sliderMask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 40px;
+            border: 0 solid #1991FA;
+            background: #D1E9FE;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background .2s linear;
+        }
+
+        .slider:hover {
+            background: #1991FA;
+        }
+
+        .slider:hover .sliderIcon {
+            background-position: 0 -13px;
+        }
+
+        .sliderIcon {
+            position: absolute;
+            top: 15px;
+            left: 13px;
+            width: 14px;
+            height: 10px;
+            background: url(../img/icon_light.f13cff3.png) 0 -26px;
+            background-size: 34px 471px;
+        }
+
+        .refreshIcon {
+            position: absolute;
+            right: 0;
+            top: 8px;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            background: url(../img/icon_light.f13cff3.png) 0 -437px;
+            background-size: 34px 471px;
+        }
+
+        body {
+            margin: 0;
+            color: #6a6f8c;
+            background: rgb(61, 76, 118);
+            font: 600 16px/18px 'Open Sans', sans-serif;
+        }
+
+        *,
+        :after,
+        :before {
+            box-sizing: border-box
+        }
+
+        .clearfix:after,
+        .clearfix:before {
+            content: '';
+            display: table
+        }
+
+        .clearfix:after {
+            clear: both;
+            display: block
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        input,
+        button {
+            outline: none;
+            border: none;
+        }
+
+        .login-wrap {
+            width: 100%;
+            margin: auto;
+            max-width: 525px;
+            min-height: 670px;
+            position: relative;
+            background: url(../img/bg.jpg) no-repeat center;
+            box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
+        }
+
+        .login-html {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            padding: 90px 70px 50px 70px;
+            background: rgba(40, 57, 101, .9);
+        }
+
+        .login-html .sign-in-htm,
+        .login-html .sign-up-htm {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            position: absolute;
+            -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transition: all .4s linear;
+            transition: all .4s linear;
+        }
+
+        .login-html .sign-in,
+        .login-html .sign-up,
+        .login-form .group .check {
+            display: none;
+        }
+
+        .login-html .tab,
+        .login-form .group .label,
+        .login-form .group .button {
+            text-transform: uppercase;
+        }
+
+        .login-html .tab {
+            font-size: 22px;
+            margin-right: 15px;
+            padding-bottom: 5px;
+            margin: 0 15px 10px 0;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+        }
+
+        .login-html .sign-in:checked + .tab,
+        .login-html .sign-up:checked + .tab {
+            color: #fff;
+            border-color: #1161ee;
+        }
+
+        .login-form {
+            min-height: 345px;
+            position: relative;
+            -webkit-perspective: 1000px;
+            perspective: 1000px;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .login-form .group {
+            margin-bottom: 15px;
+        }
+
+        .login-form .group .label,
+        .login-form .group .input,
+        .login-form .group .button {
+            width: 100%;
+            color: #fff;
+            display: block;
+        }
+
+        .login-form .group .input,
+        .login-form .group .button {
+            border: none;
+            padding: 15px 20px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, .1);
+        }
+
+        .login-form .group input[data-type="password"] {
+            text-security: circle;
+            -webkit-text-security: circle;
+        }
+
+        .login-form .group .label {
+            color: #aaa;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .login-form .group .button {
+            background: #1161ee;
+        }
+
+        .login-form .group label .icon {
+            width: 15px;
+            height: 15px;
+            border-radius: 2px;
+            position: relative;
+            display: inline-block;
+            background: rgba(255, 255, 255, .1);
+        }
+
+        .login-form .group label .icon:before,
+        .login-form .group label .icon:after {
+            content: '';
+            width: 10px;
+            height: 2px;
+            background: #fff;
+            position: absolute;
+            -webkit-transition: all .2s ease-in-out 0s;
+            transition: all .2s ease-in-out 0s;
+        }
+
+        .login-form .group label .icon:before {
+            left: 3px;
+            width: 5px;
+            bottom: 6px;
+            -webkit-transform: scale(0) rotate(0);
+            -ms-transform: scale(0) rotate(0);
+            transform: scale(0) rotate(0);
+        }
+
+        .login-form .group label .icon:after {
+            top: 6px;
+            right: 0;
+            -webkit-transform: scale(0) rotate(0);
+            -ms-transform: scale(0) rotate(0);
+            transform: scale(0) rotate(0);
+        }
+
+        .login-form .group .check:checked + label {
+            color: #fff;
+        }
+
+        .login-form .group .check:checked + label .icon {
+            background: #1161ee;
+        }
+
+        .login-form .group .check:checked + label .icon:before {
+            -webkit-transform: scale(1) rotate(45deg);
+            -ms-transform: scale(1) rotate(45deg);
+            transform: scale(1) rotate(45deg);
+        }
+
+        .login-form .group .check:checked + label .icon:after {
+            -webkit-transform: scale(1) rotate(-45deg);
+            -ms-transform: scale(1) rotate(-45deg);
+            transform: scale(1) rotate(-45deg);
+        }
+
+        .login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm {
+            -webkit-transform: rotate(0);
+            -ms-transform: rotate(0);
+            transform: rotate(0);
+        }
+
+        .login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
+            -webkit-transform: rotate(0);
+            -ms-transform: rotate(0);
+            transform: rotate(0);
+        }
+
+        .hr {
+            height: 2px;
+            margin: 60px 0 50px 0;
+            background: rgba(255, 255, 255, .2);
+        }
+
+        .foot-lnk {
+            text-align: center;
+        }
+
+    </style>
+    <link href="../css/layui.css" rel="stylesheet">
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <style>
+        #msg {
+            width: 100%;
+            line-height: 40px;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div class="jq22-container" style="padding-top:100px">
+    <div class="login-wrap">
+        <div class="login-html">
+            <input checked class="sign-in" id="tab-1" name="tab" type="radio"><label class="tab" for="tab-1">登录</label>
+            <input class="sign-up" id="tab-2" name="tab" type="radio"><label class="tab" for="tab-2">找回密码</label>
+            <div class="login-form">
+                <form>
+                    <div class="sign-in-htm">
+                        <div class="group">
+                            <label class="label" for="adminUsername">用户名</label>
+                            <input class="input" id="adminUsername" name="adminUsername" required="required"
+                                   type="text">
+                        </div>
+                        <div class="group">
+                            <label class="label" for="adminPassword">密码</label>
+                            <input class="input" data-type="password" id="adminPassword" name="adminPassword"
+                                   required="required" type="password">
+                        </div>
+                        <div class="group">
+                            <div class="container">
+                                <div data-type="password" id="captcha" style="position: relative"></div>
+                                <div id="msg" style="color:#8ce91a;font-size: 25px;"></div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <input class="button" onClick="login()" type="button" value="登录">
+                        </div>
+                        <div class="hr"></div>
+                    </div>
+                </form>
+                <form>
+                    <div class="sign-up-htm">
+                        <div class="group">
+                            <label class="label" for="findUsername">用户名</label>
+                            <input class="input" id="findUsername" name="findUsername" required="required" type="text">
+                        </div>
+                        <div class="group">
+                            <label class="label" for="findTel">手机号</label>
+                            <input class="input" id="findTel" name="findTel" type="tel">
+                        </div>
+                        <div class="group">
+                            <div class="container">
+                                <div data-type="password" id="captcha" style="position: relative"></div>
+                                <div id="codemsg" style="color:red;font-size: 25px;text-align: center;"></div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <input class="button" id="findPassword" type="button" value="找回密码">
+                        </div>
+                        <div class="hr"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="../js/jigsaw.js"></script>
+<script>
+    //图片验证标记
+    let flag = false;
+
+    //ajax请求
+    function select(urls, values) {
+        $.ajax({
+            url: urls, //请求的url地址
+            contentType: 'application/json',
+            dataType: "json", //返回格式为json
+            data: values, //参数值
+            type: "POST", //请求方式
+            success: function (json) {
+                //请求成功时处理
+                if (json.codes == 'OK') {
+                    if (urls.indexOf('find') != -1) {
+                        alert("已发送，请注意查收。");
+                    } else if (urls.indexOf('login') != -1) {
+                        window.location.href = "http://localhost:8080/shop/division/index.do";//跳转到管理员首页
+                    }
+                } else {
+                    alert("请检查输入的数据是否正确!");
+                }
+            },
+            error: function () {
+                //请求出错处理
+            }
+        });
+    }
+
+    //进行登录操作
+    function login() {
+        if (flag == true) {
+            let $adminUsername = $('#adminUsername').val();
+            let $adminPassword = $('#adminPassword').val();
+            let jsonStr = {
+                "adminUsername": $adminUsername,
+                "adminPassword": $adminPassword
+            };
+            if (jsonStr.adminUsername == '') {
+                $('#msg').text('请输入用户名!');
+                return;
+            }
+            if (jsonStr.adminPassword == '') {
+                $('#msg').text('请输入密码!');
+                return;
+            }
+            select('login.do', JSON.stringify(jsonStr));
+        } else {
+            //提示验证码 不通过。
+            $('#msg').text('图片校验不通过！');
+        }
+    }
+
+    //找回密码
+    $("#findPassword").click(function () {
+        let $adminUsername = $("#findUsername").val();
+        let $adminTel = $("#findTel").val();
+        let flag = true;
+        let jsonStr = {
+            "adminUsername": $adminUsername,
+            "adminTel": $adminTel,
+        };
+        if (jsonStr.adminUsername == '') {
+            $("#codemsg").text("请输入用户名!");
+            flag = false;
+            return;
+        }
+        if (jsonStr.adminTel == '') {
+            $("#codemsg").text("请输入手机号!");
+            flag = false;
+            return;
+        }
+        $("#codemsg").text("");
+        select("find.do", JSON.stringify(jsonStr));
+    });
+
+    //图片验证码显示结果
+    jigsaw.init(document.getElementById('captcha'), function () {
+        flag = true;
+        $('#msg').text('验证成功！');
+    });
+</script>
+</html>

@@ -24,4 +24,7 @@ public interface LogisticsMapper {
 
     // 订单是否送达
     boolean arrive(Orders order);
+
+    // 查询单条数据信息
+    Orders selectOne(String id);
 }

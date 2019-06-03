@@ -222,13 +222,6 @@ A.eq:hover {
     border: 1px solid #8AA2CC;
     color: #333333;
     cursor: hand;
-    /*
-    left: 10px;
-    top: 10px;
-    right: 0px;
-    bottom: 10px;
-    clip:  rect(10px 10px 10px 10px);
-    */
     height: 18px;
 }
 
@@ -310,7 +303,7 @@ A.eq:hover {
     bottom: 10px;
     clip: rect(10px 10px 10px 10px);
     height: 20px;
-
+}
 .button_search {
     background-color: #DAE6FF;
     margin: 1px;

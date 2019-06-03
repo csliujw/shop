@@ -64,14 +64,10 @@
                     data: values,
                     url: "${pageContext.request.contextPath}/division/add.do",// url
                     success: function (json) {
-                        layer.alert("操作成功", {
-                            title: json.message
-                        })
+                        layer.msg(json.message);
                     },
                     error: function (json) {
-                        layer.alert("操作失败", {
-                            title: json.message
-                        })
+                        layer.msg(json.message);
                     }
                 });
                 event.preventDefault();

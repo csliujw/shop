@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" type="text/css"/>
     <script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/layui.js"></script>
     <!-- 引入自定义css文件 style.css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css"/>
+
 
     <style>
         body {
@@ -81,8 +83,7 @@
 </body>
 <script>
     layui.use(['form', 'layer'], function () {
-
-
+        let layer = layui.layer;
         let page = 2;//记录当前要请求数据的页数 最开始是第一页，所以从2开始请求
         let $appendDiv = $("#append");//在哪里追加内容
         let $subdivisionId = $("#subdivisionId").val();//检索条件

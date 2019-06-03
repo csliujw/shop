@@ -44,10 +44,12 @@
     <!-- 查询付款订单信息 -->
     <select id="selectPay" parameterType="UserOrderVO" resultType="UserOrder">
         select p.`product_id`,p.`product_name`,p.`product_image`,p.`product_shop_price`,
-               oi.`order_item_id`,oi.`order_item_count`,oi.`order_item_subtotal`,o.`orders_logistics`,o.`orders_state`
+               oi.`order_item_id`,oi.`order_item_count`,oi.`order_item_subtotal`,o.`orders_logistics`,o.`orders_state`,
+               o.orders_id
         from product p,order_item oi,orders o
         where p.`product_id` = oi.`product_id`
         and oi.`orders_id` = o.`orders_id`
+        and o.orders_or_delete=0
         and oi.`order_item_statu` = 1
         and oi.`user_id` = #{userId}
         limit #{start},#{end}

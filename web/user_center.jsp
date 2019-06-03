@@ -255,7 +255,7 @@
                     divStr +=
                         `<div class="col-lg-12" style="line-height: 110px;">
 						<div class="col-lg-3 col-md-3 col-xs-3">` + json[i].productName + `</div>
-						<div class="col-lg-2 col-md-2 col-xs-2"><img style='width: 150px;height: 100px;' src='` + json[i].productImage + `'></div>
+						<div class="col-lg-2 col-md-2 col-xs-2"><img style='width: 150px;height: 100px;' src='/` + json[i].productImage + `'></div>
 						<div class="col-lg-3 col-md-3 col-xs-3">` + json[i].productShopPrice + `</div>
 						<div class="col-lg-1 col-md-1 col-xs-1">` + json[i].orderItemCount + `</div>
 						<div class="col-lg-1 col-md-1 col-xs-1">` + json[i].orderItemSubtotal + `</div>
@@ -289,12 +289,12 @@
                     for (let i = 0; i < json.length; i++) {
                         divStr +=
                             `<div class="col-lg-12" style="line-height: 110px;">
-						<div class="col-lg-3 col-md-3 col-xs-3" title="点击商品名称 查看具体信息">` + json[i].productName + `</div>
-						<div class="col-lg-2 col-md-2 col-xs-2"><img style='width: 150px;height: 100px;' src='` + json[i].productImage + `'></div>
+						<div class="col-lg-3 col-md-3 col-xs-3" title="点击商品名称 查看具体信息"><a href="${pageContext.request.contextPath}/user/confirm.do?ordersId=` + json[i].ordersId + `">` + json[i].productName + `</href></div>
+						<div class="col-lg-2 col-md-2 col-xs-2"><img style='width: 150px;height: 100px;' src='/` + json[i].productImage + `'></div>
 						<div class="col-lg-1 col-md-1 col-xs-1">` + json[i].productShopPrice + `</div>
 						<div class="col-lg-1 col-md-1 col-xs-1">` + json[i].orderItemCount + `</div>
 						<div class="col-lg-1 col-md-1 col-xs-1">` + json[i].orderItemSubtotal + `</div>
-                        <div class="col-lg-4 col-md-4 col-xs-4"><a class='lookwuliu' name='` + json[i].ordersLogistics + `'>` + json[i].ordersLogistics + `阿斯顿发大水发大水发射点发射点发射点发</a></div>
+                        <div class="col-lg-4 col-md-4 col-xs-4"><a class='lookwuliu' name='` + json[i].ordersLogistics + `'>` + json[i].ordersLogistics + `</a></div>
 						</div>
 					<hr />`
                     }

@@ -30,7 +30,7 @@ public class DivisionController {
     @RequestMapping("index.do")
     public String index(HttpSession session) {
         updateSession(session);
-        return "index";
+        return "redirect:/admin/index.jsp";
     }
 
     /**

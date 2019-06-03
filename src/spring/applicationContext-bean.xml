@@ -9,4 +9,5 @@
     <bean id="userOrderService" class="org.shop.service.UserOrderService"></bean>
     <bean id="orderItemServiceImpl" class="org.shop.service.OrderItemServiceImpl"/>
     <bean id="logisticsService" class="org.shop.service.LogisticsService"/>
+    <bean id="adminService" class="org.shop.service.AdminService"/>
 </beans>
